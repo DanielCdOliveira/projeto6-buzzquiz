@@ -157,35 +157,17 @@ main {
 }
 
 /* CRIAR QUIZ */
-.create-quiz{
-    width: 100%;
-    height: calc(100vh - 69px);
-    margin-top: 69px;
-    position: absolute;
-    background-color: #FAFAFA;
 
-}
 .create-page {
-    height: calc(100vh - 69px);
+    width: 100%;
+    height: calc(100% - 69px);
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 69px;
     padding-top: 38px;
     background-color: #FAFAFA;
-}
-
-.inputs1 {
-    width: 375px;
-    height: 256px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 21px 0 24px 0;
-    margin-top: 50px;
-    margin-bottom: 29px;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
 .create-input {
@@ -199,7 +181,7 @@ main {
     font-size: 19px;
     line-height: 22px;
     color: black;
-    padding-left: 14px  ;
+    padding-left: 14px;
 }
 
 .create-input::placeholder {
@@ -223,6 +205,58 @@ main {
     color: #FFF5F4;
     text-align: center;
 }
+
+/* PRIMEIRA PAGINA DE CRIAÇAO */
+.inputs {
+    width: 375px;
+    height: 256px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 21px 0 24px 0;
+    margin-top: 29px;
+    margin-bottom: 29px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* SEGUNDA PAGINA DE CRIAÇAO */
+.inputs2 li {
+    width: 375px;
+    height: 825px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 21px 0 24px 0;
+    margin-top: 29px;
+    margin-bottom: 29px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.inputs2 li>div:nth-child(1), .inputs2 li>div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 140px;
+}
+
+.incorrects {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+}
+.incorrects :nth-child(2n+1):not(h2){
+    margin-bottom: 32px;
+    margin-top: 14px;
+    
+}
+.incorrects h2{
+    margin-bottom: 14px;
+}
+
+
 
 
 

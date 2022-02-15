@@ -1,0 +1,141 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* CABEÇALHO */
+header {
+    width: 100%;
+    height: 69px;
+    position: fixed;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ec362d;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+h1 {
+    font-size: 37px;
+    font-weight: 700;
+    color: white;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 23px;
+    color: #000000;
+}
+
+/*  */
+main {
+    position: absolute;
+    top: 69px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    width: 90%;
+    min-width: 340px;
+    margin: 0px 5% 0px 5%;
+
+}
+
+.my-puzzles {
+    margin: 31px 0px 35px 0px;
+    width: 100%;
+    min-width: 340px;
+}
+
+.no-puzzles {
+    height: 181px;
+    background: #FAFAFA;
+    border: 1px dashed #D5D5D5;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.no-puzzles p {
+    width: 250px;
+    height: 107px;
+    font-size: 20px;
+    color: #B9B9B9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.no-puzzles span {
+    width: 151px;
+    height: 40px;
+    border: 1px dashed #EC362D;
+    border-radius: 50px;
+    color: #EC362D;
+    font-size: 21px;
+    line-height: 40px;
+    text-align: center;
+}
+
+/* Todos os Quizzes */
+
+.all-puzzles {
+    width: 100%;
+    min-width: 340px;
+}
+
+.puzzle-container {
+    width: 100%;
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.puzzle {
+    width: 340px;
+    height: 181px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.puzzle::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: "";
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%);
+}
+
+.puzzle img {
+    width: 340px;
+    height: 181px;
+    border-radius: 5px;
+    position: relative;
+}
+h3{
+    font-size: 19px;
+    line-height: 22px;
+    color: white;
+    position: absolute;
+    bottom: 7px;
+    z-index:1;
+    text-align:left;
+    padding-left: 18px;
+    max-height: 66px;
+    width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,1 @@
+const allQuiz = document.querySelector(".all-quiz")

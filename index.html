@@ -22,41 +22,63 @@
     </header>
 
     <main>
-        <section class="my-quiz">
 
-            <!-- SE NAO TIVER CRIADO NENHUM quiz -->
-            <div class="no-quiz">
-                <p>Você não criou nenhum quiz ainda :(</p>
-                <span>Criar Quiz</span>
-            </div>
-
-            <!-- ALGUM quiz JA FOI CRIADO -->
-            <!-- <div class="my-quiz-title">
-                <h2>Seus Quizzes</h2>
-                <ion-icon name="add-circle"></ion-icon>
-            </div>
+        <!-- TELA INICIAL -->
+        <section class="home-page hidden">
+            <div class="my-quiz">
+                <!-- SE NAO TIVER CRIADO NENHUM quiz -->
+                <div class="no-quiz">
+                    <p>Você não criou nenhum quiz ainda :(</p>
+                    <span onclick="createQuiz()">Criar Quiz</span>
+                </div>
+                <!-- ALGUM quiz JA FOI CRIADO -->
+                <!-- <div class="my-quiz-title">
+                    <h2>Seus Quizzes</h2>
+                    <ion-icon name="add-circle"></ion-icon>
+                </div>
             
-            <ul class="quiz-container">
-                <li class="quiz">
-                    <img src="assets/test.jpg" alt="">
-                    <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
-                        corretos dos Simpson Simpsons e prove seu amor!</h3>
-                </li>
-                <li class="quiz">
-                    <img src="assets/test.jpg" alt="">
-                    <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
-                        corretos dos Simpson Simpsons e prove seu amor!</h3>
-                </li>
+                <ul class="quiz-container">
+                    <li class="quiz">
+                        <img src="assets/test.jpg" alt="">
+                        <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
+                            corretos dos Simpson Simpsons e prove seu amor!</h3>
+                    </li>
+                    <li class="quiz">
+                        <img src="assets/test.jpg" alt="">
+                        <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
+                            corretos dos Simpson Simpsons e prove seu amor!</h3>
+                    </li>
             
-            </ul> -->
+                </ul> -->
+            </div>
+            <div class="all-quiz">
+                <h2>Todos os Quizzes</h2>
+                <ul class="quiz-container"></ul>
+            </div>
         </section>
 
-        <section class="all-quiz">
-            <h2>Todos os Quizzes</h2>
-            <ul class="quiz-container"></ul>
+        
+
+
+        <!-- TELA DE EXIBIÇÃO DE QUIZ -->
+        <section class="quiz-page hidden">
         </section>
+
+
     </main>
-
+    <!-- TELA DE CRIAR QUIZ -->
+    <section class="create-quiz">
+        <div class="create-page 1">
+            <h2>Comece pelo começo</h2>
+            <div class="inputs1">
+                <input class="create-input" type="text" placeholder="Título do seu quizz">
+                <input class="create-input" type="text" placeholder="URL da imagem do seu quizz">
+                <input class="create-input" type="text" placeholder="Quantidade de perguntas do quizz">
+                <input class="create-input" type="text" placeholder="Quantidade de níveis do quizz">
+            </div>
+            <input class="next-button" type="button" value="Prosseguir pra criar perguntas">
+        </div>
+    </section>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

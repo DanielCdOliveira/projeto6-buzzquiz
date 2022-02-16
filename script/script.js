@@ -17,6 +17,7 @@ function searchQuiz() {
     promise.then(quizDisplay);
 
 }
+
 function quizDisplay(response) {
 
     response.data.forEach(element => {
@@ -56,6 +57,8 @@ function createQuiz() {
     homePage.classList.add("hidden");
     createPage.classList.remove("hidden")
 }
+
+
 // FUNÇAO DO PRIMEIRO BOTAO DA PRIMEIRA TELA DE CRIAÇAO
 function stepOne() {
     quizInCreation = {};
@@ -72,6 +75,8 @@ function stepOne() {
         alert("Insira informaçoes válidas")
     }
 }
+
+
 // FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 E 3 DE CRIAÇAO
 function createQuestionsLevels(title, url, nQuestions, nLevels) {
     quizInCreation = {
@@ -106,11 +111,11 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="">
     </li>
     `
-    // CRIANDO O LAYOUT DE INPUT DOS LEVELS
+        // CRIANDO O LAYOUT DE INPUT DOS LEVELS
     }
     for (let i = 0; i < nLevels; i++) {
         pageThree.querySelector("ul").innerHTML += `
-        <li class="level hide" id="q${i}">
+        <li class="level hide" id="l${i}">
             <div class="text-inputs">
                 <h2>Nivel ${i+1}</h2>
                 <input class="create-input level-title"  type="text" minlength="10"
@@ -192,15 +197,63 @@ function stepTwo() {
 
         questionsArray.push(arrayContent)
 
+    }
 
+}
+
+// FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
+function stepThree() {
+    pageThree.classList.add("hidden");
+    pageFour.classList.remove("hidden");
+
+    console.log(quizNumLevels)
+    for (let i = 0; i < quizNumLevels; i++) {
+
+        answerArray = [];
+
+        let level = document.querySelector(`#l${i}`);
+        console.log(level);
+
+        let levelTitle = level.querySelector(".level-title").value;
+        console.log(levelTitle);
+
+        let levelHits = level.querySelector(".level-hits").value;
+        console.log(levelHits);
+
+        let levelUrl = level.querySelector(".level-url").value;
+        console.log(levelUrl);
+
+        let levelDescription = level.querySelector(".level-description").value;
+        console.log(levelDescription);
+
+
+
+        answerArray.push({
+            title: levelTitle,
+            image: levelUrl,
+            text: levelDescription,
+            minValue: levelHits
+        })
+
+
+
+        levelsArray.push(answerArray)
     }
 
 
 
+    console.log(levelsArray)
 
+    console.log(quizInCreation);
+    const promise = axios(QUIZ_API, quizInCreation)
+    promise.then(send)
+    promise.catch(notSend)
+}
 
+function send() {
+    console.log("enviou")
+}
 
-
-
-
+function notSend(response) {
+    console.log(response)
 }

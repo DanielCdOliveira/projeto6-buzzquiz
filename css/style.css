@@ -238,7 +238,8 @@ main {
     background-color: blue;
 }
 
-.inputs2 li>div:nth-child(1), .inputs2 li>div:nth-child(2) {
+.inputs2 li>div:nth-child(1),
+.inputs2 li>div:nth-child(2) {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -250,18 +251,23 @@ main {
     flex-direction: column;
     height: 450px;
 }
-.incorrects :nth-child(2n+1):not(h2){
+
+.incorrects :nth-child(2n+1):not(h2) {
     margin-bottom: 32px;
     margin-top: 14px;
-    
+
 }
-.incorrects h2{
+
+.incorrects h2 {
     margin-bottom: 14px;
 }
 
-input:invalid {
-    border: 2px solid var(--red-color);
-  }
+.edit-question{
+    width: 26px;
+    height: 23px;
+    position: absolute;
+    right: 17px;
+}
 
 
 
@@ -269,17 +275,22 @@ input:invalid {
 
 
 
-
-.question.hide{
+.question.hide {
     height: 74px;
     overflow: hidden;
     align-items: flex-start;
     padding-left: 17px;
     padding-top: 25px;
 }
-.question.hide input{
+
+.question.hide input {
     display: none;
 }
+
 .hidden {
     display: none;
+}
+
+input:invalid {
+    border: 2px solid var(--red-color);
 }

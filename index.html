@@ -24,7 +24,7 @@
     <main>
 
         <!-- TELA INICIAL -->
-        <section class="home-page hidden">
+        <section class="home-page">
             <div class="my-quiz">
                 <!-- SE NAO TIVER CRIADO NENHUM quiz -->
                 <div class="no-quiz">
@@ -67,10 +67,10 @@
 
     </main>
     <!-- TELA DE CRIAR QUIZ -->
-    <section class="create-quiz">
+    <section class="create-quiz hidden">
 
         <!-- TELA 1 -->
-        <div class="create-page one hidden">
+        <div class="create-page one">
             <h2>Comece pelo começo</h2>
             <div class="inputs">
                 <input class="create-input quiz-title" type="text" minlength="20" maxlength="65"
@@ -94,23 +94,9 @@
         </div>
 
         <!-- TELA 3 -->
-        <div class="create-page three">
+        <div class="create-page three hidden">
             <h2>Agora, decida os níveis!</h2>
-            <ul>
-                <li class="level hide" id="q${i}">
-                    <div class="text-inputs">
-                        <h2>Nivel 1</h2>
-                        <input class="create-input level-title" type="text" minlength="20"
-                            placeholder="Título do nível">
-                        <input class="create-input level-hits" type="text" placeholder="% de acerto mínima">
-                        <input class="create-input level-url" type="url" pattern="https://.*"
-                            placeholder="URL da imagem do nível">
-                        <textarea class="create-input url-answer" type="text" placeholder="Descrição do nível"></textarea> 
-                    </div>
-
-                    <img onclick="editQuestion(this)" class="edit-question" src="assets/Vector.png" alt="">
-                </li>
-            </ul>
+            <ul></ul>
             <input onclick="stepThree()" class="next-button" type="button" value="Finalizar Quizz">
         </div>
 

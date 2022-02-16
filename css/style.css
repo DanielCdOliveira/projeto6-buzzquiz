@@ -312,8 +312,12 @@ main {
 .text-inputs h2{
     align-self: flex-start;
 }
-.url-answer {
+.level-description {
     height: 175px;
+}
+
+.level.hide input, .level.hide textarea, .question.hide input {
+    display: none;
 }
 
 
@@ -334,9 +338,7 @@ main {
 
 
 
-
-
-.question.hide {
+.question.hide, .level.hide {
     height: 74px;
     overflow: hidden;
     align-items: flex-start;

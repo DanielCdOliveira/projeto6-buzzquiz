@@ -17,7 +17,6 @@ function searchQuiz() {
     promise.then(quizDisplay);
 
 }
-
 function quizDisplay(response) {
 
     response.data.forEach(element => {
@@ -31,6 +30,7 @@ function quizDisplay(response) {
 }
 searchQuiz()
 
+////////////////   CRIAÇÃO DOS QUIZ  ////////////////
 
 // Criar quiz
 // Objeto que sera o quiz criado
@@ -58,13 +58,13 @@ function createQuiz() {
 }
 // FUNÇAO DO PRIMEIRO BOTAO DA PRIMEIRA TELA DE CRIAÇAO
 function stepOne() {
-    quizCreating = {};
+    quizInCreation = {};
     quizTitle = document.querySelector(".quiz-title:valid").value;
     quizUrl = document.querySelector(".quiz-url:valid").value;
     quizNumQuestions = document.querySelector(".quiz-number-questions:valid").value;
     quizNumLevels = document.querySelector(".quiz-number-levels:valid").value;
     if (quizTitle != "" && quizUrl != "" && quizNumQuestions != "" && quizNumLevels != "") {
-        createQuizPartOne(quizTitle, quizUrl, quizNumQuestions, quizNumLevels);
+        createQuestionsLevels(quizTitle, quizUrl, quizNumQuestions, quizNumLevels);
         pageOne.classList.add("hidden")
         pageTwo.classList.remove("hidden")
 
@@ -72,15 +72,15 @@ function stepOne() {
         alert("Insira informaçoes válidas")
     }
 }
-// FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 DE CRIAÇAO
-function createQuizPartOne(title, url, nQuestions, nLevels) {
+// FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 E 3 DE CRIAÇAO
+function createQuestionsLevels(title, url, nQuestions, nLevels) {
     quizInCreation = {
         title: title,
         image: url,
         questions: questionsArray,
         levels: levelsArray
     }
-
+    // CRIANDO LAYOUT DE INPUTS DAS QUESTIONS
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
         <li class="question hide" id="q${i}">
@@ -103,16 +103,33 @@ function createQuizPartOne(title, url, nQuestions, nLevels) {
                 <input class="create-input" type="text" placeholder="Resposta correta">
                 <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
         </div>
-        <img onclick="editQuestion(this)" class="edit-question" src="assets/Vector.png" alt="">
+        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="">
     </li>
+    `
+    // CRIANDO O LAYOUT DE INPUT DOS LEVELS
+    }
+    for (let i = 0; i < nLevels; i++) {
+        pageThree.querySelector("ul").innerHTML += `
+        <li class="level hide" id="q${i}">
+            <div class="text-inputs">
+                <h2>Nivel ${i+1}</h2>
+                <input class="create-input level-title"  type="text" minlength="10"
+                placeholder="Título do nível">
+                <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima">
+                <input class="create-input level-url" type="url" pattern="https://.*"
+                placeholder="URL da imagem do nível">
+                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível"></textarea> 
+        </div>
+        <img onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
+        </li>
     `
     }
 
 }
 // EDITA AS PERGUNTAS
-function editQuestion(element) {
+function editQuestion(element, className) {
     // Minimiza o que ta selecionado
-    const question = document.querySelector(".question.selected");
+    const question = document.querySelector(`.${className}.selected`);
     if (question != null) {
         question.classList.remove("selected");
         question.classList.add("hide");
@@ -126,47 +143,43 @@ function editQuestion(element) {
 }
 
 //FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
-function stepTwo (){
+function stepTwo() {
     pageTwo.classList.add("hidden");
     pageThree.classList.remove("hidden");
-    
 
-    for(let i = 0; i < quizNumQuestions;i++){
+
+    for (let i = 0; i < quizNumQuestions; i++) {
         // li da pergunta
         let question = document.querySelector(`#q${i}`);
-        answerArray =[]
+        answerArray = []
         // texto da pergunta
         let questionText = question.querySelector(".question-text").value
         // cor da pergunta
         let questionColor = question.querySelector(".question-color").value
-        
+
         // resposta certa
         let correctAnswer = question.querySelector(".correct-answer").value
-        
+
         // url da imagem certa
-        let urlAnswer= question.querySelector(".url-answer").value
-        
-        
-        answerArray.push(
-            {
-                text: correctAnswer,
-                image: urlAnswer,
-                isCorrectAnswer: true
-            }
-        )
+        let urlAnswer = question.querySelector(".url-answer").value
 
 
-        for(let i = 0; i < 6; i++){
+        answerArray.push({
+            text: correctAnswer,
+            image: urlAnswer,
+            isCorrectAnswer: true
+        })
+
+
+        for (let i = 0; i < 6; i++) {
             let wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
-            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i+1].value
-            if(wrong != "" && wrongUrl != ""){
-                answerArray.push(
-                    {
-                        text: wrong,
-                        image: wrongUrl,
-                        isCorrectAnswer: false
-                    }
-                )
+            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
+            if (wrong != "" && wrongUrl != "") {
+                answerArray.push({
+                    text: wrong,
+                    image: wrongUrl,
+                    isCorrectAnswer: false
+                })
                 i++;
             }
         }
@@ -176,12 +189,12 @@ function stepTwo (){
             color: questionColor,
             answers: answerArray
         }
-    
+
         questionsArray.push(arrayContent)
-        
+
 
     }
-    
+
 
 
 
@@ -191,5 +204,3 @@ function stepTwo (){
 
 
 }
-
-

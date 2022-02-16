@@ -248,6 +248,7 @@ main {
     margin-bottom: 29px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     background-color: #FFFFFF;
+    position: relative;
 }
 
 .inputs2 li>div:nth-child(1),

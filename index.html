@@ -70,7 +70,7 @@
     <section class="create-quiz hidden">
 
         <!-- TELA 1 -->
-        <div class="create-page one ">
+        <div class="create-page one">
             <h2>Comece pelo começo</h2>
             <div class="inputs">
                 <input class="create-input quiz-title" type="text"  minlength="20" maxlength="65" placeholder="Título do seu quizz">
@@ -86,8 +86,13 @@
         <div class="create-page two hidden">
             <h2>Crie suas perguntas</h2>
             <ul class="inputs2"></ul>
-            <input class="next-button" type="button" value="Prosseguir pra criar perguntas">
+            <input onclick="stepTwo()" class="next-button" type="button" value="Prosseguir pra criar perguntas">
         </div>
+
+        <!-- TELA 3 -->
+        <div class="create-page three hidden"></div>
+
+
     </section>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

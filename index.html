@@ -68,20 +68,25 @@
     </main>
     <!-- TELA DE CRIAR QUIZ -->
     <section class="create-quiz">
-        <div class="create-page one hidden">
+
+        <!-- TELA 1 -->
+        <div class="create-page one">
             <h2>Comece pelo começo</h2>
             <div class="inputs">
-                <input class="create-input" type="text" placeholder="Título do seu quizz">
-                <input class="create-input" type="text" placeholder="URL da imagem do seu quizz">
-                <input class="create-input" type="text" placeholder="Quantidade de perguntas do quizz">
-                <input class="create-input" type="text" placeholder="Quantidade de níveis do quizz">
+                <input class="create-input quiz-title" type="text"  minlength="20" maxlength="65" placeholder="Título do seu quizz">
+                <input class="create-input quiz-url" type="url" pattern="https://.*" placeholder="URL da imagem do seu quizz" required>
+                <input class="create-input quiz-number-questions" type="number" min="3" placeholder="Quantidade de perguntas do quizz">
+                <input class="create-input quiz-number-levels" type="number" min="2" placeholder="Quantidade de níveis do quizz">
+                
             </div>
-            <input class="next-button" type="button" value="Prosseguir pra criar perguntas">
+            <input onclick="stepOne()" class="next-button" type="button" value="Prosseguir pra criar perguntas">
         </div>
+
+        <!-- TELA 2 -->
         <div class="create-page two">
             <h2>Crie suas perguntas</h2>
             <ul class="inputs2">
-                <li class="question">
+                <li class="question hide">
                     <div>
                         <h2>Pergunta 1</h2>
                         <input class="create-input" type="text" placeholder="Texto da pergunta">
@@ -100,6 +105,7 @@
                             <input class="create-input" type="text" placeholder="URL da imagem">
                             <input class="create-input" type="text" placeholder="Resposta correta">
                             <input class="create-input" type="text" placeholder="URL da imagem">
+                    </div>
                 </li>
             </ul>
             <input class="next-button" type="button" value="Prosseguir pra criar perguntas">

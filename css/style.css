@@ -229,9 +229,10 @@ main {
 }
 
 /* SEGUNDA PAGINA DE CRIAÇAO */
-.create-page.two{
+.create-page.two {
     height: 100%;
 }
+
 .inputs2 {
     height: fit-content;
 }
@@ -281,6 +282,53 @@ main {
     position: absolute;
     right: 17px;
 }
+
+/* TERCEIRA TELA DE CRIAÇÃO */
+
+.create-page.three{
+    height: 100%;
+}
+.level{
+    width: 375px;
+    height:439px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 21px 0 24px 0;
+    margin-top: 29px;
+    margin-bottom: 29px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    background-color: #FFFFFF;
+    position: relative;
+}
+.text-inputs {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.text-inputs h2{
+    align-self: flex-start;
+}
+.url-answer {
+    height: 175px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

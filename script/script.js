@@ -77,25 +77,25 @@ function createQuizPartOne(title, url, nQuestions, nLevels) {
 
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
-        <li class="question q${i} hide">
-            <div class="hidden">
+        <li class="question hide" id="q${i}">
+            <div>
                 <h2>Pergunta ${i+1}</h2>
-                <input class="create-input" type="text" placeholder="Texto da pergunta">
+                <input class="create-input" type="text" minlength="20" placeholder="Texto da pergunta">
                 <input class="create-input" type="text" placeholder="Cor de fundo da pergunta">
              </div>
-            <div class="hidden>
+            <div>
                 <h2>Resposta correta</h2>
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
             </div>
-            <div class="incorrects hidden">
+            <div class="incorrects">
                 <h2>Respostas incorretas</h2>
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" ttype="url" pattern="https://.*"" placeholder="URL da imagem">
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
         </div>
         <img onclick="editQuestion(this)" class="edit-question" src="assets/Vector.png" alt="">
     </li>
@@ -113,7 +113,7 @@ function editQuestion(element) {
     const question = document.querySelector(".question.selected");
     if (question != null) {
         question.classList.remove("selected");
-        question.classList.add("hide");
+        question.classList.add("hide"); 
         question.querySelector(".edit-question").style.display = "block"
     }
 

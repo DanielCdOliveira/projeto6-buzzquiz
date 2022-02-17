@@ -21,7 +21,8 @@ function searchQuiz() {
 function quizDisplay(response) {
     console.log(response.data); //tirar depois
     const variavel = response.data;
-    response.data.forEach(element => {
+    
+    variavel.forEach(element => {
         allQuiz.innerHTML += `
         <li onclick="showSelectedQuiz(${element.id})" class="quiz" id="${element.id}">
             <img src="${element.image}" alt="">
@@ -154,7 +155,125 @@ function editQuestion(element, className) {
     element.style.display = "none";
 }
 
+//FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
+function stepTwo() {
+    pageTwo.classList.add("hidden");
+    pageThree.classList.remove("hidden");
 
+
+    for (let i = 0; i < quizNumQuestions; i++) {
+        // li da pergunta
+        let question = document.querySelector(`#q${i}`);
+        answerArray = []
+        // texto da pergunta
+        let questionText = question.querySelector(".question-text").value
+        // cor da pergunta
+        let questionColor = question.querySelector(".question-color").value
+
+        // resposta certa
+        let correctAnswer = question.querySelector(".correct-answer").value
+
+        // url da imagem certa
+        let urlAnswer = question.querySelector(".url-answer").value
+
+
+        answerArray.push({
+            text: correctAnswer,
+            image: urlAnswer,
+            isCorrectAnswer: true
+        })
+
+
+        for (let i = 0; i < 6; i++) {
+            let wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
+            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
+            if (wrong != "" && wrongUrl != "") {
+                answerArray.push({
+                    text: wrong,
+                    image: wrongUrl,
+                    isCorrectAnswer: false
+                })
+                
+            }
+            i++;
+        }
+
+        let arrayContent = {
+            title: questionText,
+            color: questionColor,
+            answers: answerArray
+        }
+
+        questionsArray.push(arrayContent)
+
+    }
+
+}
+
+// FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
+function stepThree() {
+    pageThree.classList.add("hidden");
+    pageFour.classList.remove("hidden");
+
+    console.log(quizNumLevels)
+    for (let i = 0; i < quizNumLevels; i++) {
+
+        let answerObject = {};
+
+        let level = document.querySelector(`#l${i}`);
+        console.log(level);
+
+        let levelTitle = level.querySelector(".level-title").value;
+        console.log(levelTitle);
+
+        let levelHits = parseInt(level.querySelector(".level-hits").value);
+        console.log(levelHits);
+
+        let levelUrl = level.querySelector(".level-url").value;
+        console.log(levelUrl);
+
+        let levelDescription = level.querySelector(".level-description").value;
+        console.log(levelDescription);
+
+
+
+        answerObject = {
+            title: levelTitle,
+            image: levelUrl,
+            text: levelDescription,
+            minValue: levelHits
+        }
+
+
+
+        levelsArray.push(answerObject)
+    }
+
+
+
+    console.log(levelsArray)
+
+    console.log(quizInCreation);
+    const promise = axios.post(QUIZ_API, quizInCreation)
+    promise.then(send)
+    promise.catch(notSend)
+
+
+    let finalImage = pageFour.querySelector(".div-img")
+    finalImage.innerHTML = `
+    <img class="final-image" src="${quizInCreation.image}" alt="">
+    <h3>${quizInCreation.title}</h3>
+    `
+
+}
+
+function send(response) {
+    console.log(response.data)
+}
+
+function notSend(response) {
+    console.log(response)
+}
 
 
 
@@ -441,121 +560,4 @@ function questionSelected(image, text) {
 }
 
 
-//FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
-function stepTwo() {
-    pageTwo.classList.add("hidden");
-    pageThree.classList.remove("hidden");
 
-
-    for (let i = 0; i < quizNumQuestions; i++) {
-        // li da pergunta
-        let question = document.querySelector(`#q${i}`);
-        answerArray = []
-        // texto da pergunta
-        let questionText = question.querySelector(".question-text").value
-        // cor da pergunta
-        let questionColor = question.querySelector(".question-color").value
-
-        // resposta certa
-        let correctAnswer = question.querySelector(".correct-answer").value
-
-        // url da imagem certa
-        let urlAnswer = question.querySelector(".url-answer").value
-
-
-        answerArray.push({
-            text: correctAnswer,
-            image: urlAnswer,
-            isCorrectAnswer: true
-        })
-
-
-        for (let i = 0; i < 6; i++) {
-            let wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
-            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
-            if (wrong != "" && wrongUrl != "") {
-                answerArray.push({
-                    text: wrong,
-                    image: wrongUrl,
-                    isCorrectAnswer: false
-                })
-                i++;
-            }
-        }
-
-        let arrayContent = {
-            title: questionText,
-            color: questionColor,
-            answers: answerArray
-        }
-
-        questionsArray.push(arrayContent)
-
-    }
-
-}
-
-// FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
-function stepThree() {
-    pageThree.classList.add("hidden");
-    pageFour.classList.remove("hidden");
-
-    console.log(quizNumLevels)
-    for (let i = 0; i < quizNumLevels; i++) {
-
-        answerArray = [];
-
-        let level = document.querySelector(`#l${i}`);
-        console.log(level);
-
-        let levelTitle = level.querySelector(".level-title").value;
-        console.log(levelTitle);
-
-        let levelHits = level.querySelector(".level-hits").value;
-        console.log(levelHits);
-
-        let levelUrl = level.querySelector(".level-url").value;
-        console.log(levelUrl);
-
-        let levelDescription = level.querySelector(".level-description").value;
-        console.log(levelDescription);
-
-
-
-        answerArray.push({
-            title: levelTitle,
-            image: levelUrl,
-            text: levelDescription,
-            minValue: levelHits
-        })
-
-
-
-        levelsArray.push(answerArray)
-    }
-
-
-
-    console.log(levelsArray)
-
-    console.log(quizInCreation);
-    const promise = axios(QUIZ_API, quizInCreation, quizInCreation)
-    promise.then(send)
-    promise.catch(notSend)
-
-
-    let finalImage = pageFour.querySelector(".div-img")
-    finalImage.innerHTML = `
-    <img class="final-image" src="assets/test.jpg" alt="">
-    <h3>${quizInCreation.title}</h3>
-    `
-
-}
-
-function send() {
-    console.log("enviou")
-}
-
-function notSend(response) {
-    console.log(response)
-}

@@ -160,15 +160,15 @@ main {
 
 .create-page {
     width: 100%;
-    height: calc(100% - 69px);
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 69px;
     padding-top: 38px;
-    background-color: brown;
+    background-color: #FAFAFA;
 }
+
 
 .create-input {
     width: 340px;
@@ -210,6 +210,11 @@ main {
 
 
 /* PRIMEIRA PAGINA DE CRIAÇAO */
+.create-page.one {
+
+    height: calc(100% - 69px);
+}
+
 .inputs {
     width: 375px;
     height: 256px;
@@ -225,6 +230,14 @@ main {
 }
 
 /* SEGUNDA PAGINA DE CRIAÇAO */
+.create-page.two {
+    height: 100%;
+}
+
+.inputs2 {
+    height: fit-content;
+}
+
 .question {
     width: 375px;
     height: 825px;
@@ -236,7 +249,8 @@ main {
     margin-top: 29px;
     margin-bottom: 29px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
-    background-color: blue;
+    background-color: #FFFFFF;
+    position: relative;
 }
 
 .inputs2 li>div:nth-child(1),
@@ -270,13 +284,62 @@ main {
     right: 17px;
 }
 
+/* TERCEIRA TELA DE CRIAÇÃO */
+
+.create-page.three{
+    height: 100%;
+}
+.level{
+    width: 375px;
+    height:439px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 21px 0 24px 0;
+    margin-top: 29px;
+    margin-bottom: 29px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    background-color: #FFFFFF;
+    position: relative;
+}
+.text-inputs {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.text-inputs h2{
+    align-self: flex-start;
+}
+.level-description {
+    height: 175px;
+}
+
+.level.hide input, .level.hide textarea, .question.hide input {
+    display: none;
+}
 
 
 
 
 
 
-.question.hide {
+
+
+
+
+
+
+
+
+
+
+
+
+
+.question.hide, .level.hide {
     height: 74px;
     overflow: hidden;
     align-items: flex-start;

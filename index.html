@@ -128,13 +128,17 @@
     <section class="create-quiz hidden">
 
         <!-- TELA 1 -->
-        <div class="create-page one ">
+        <div class="create-page one">
             <h2>Comece pelo começo</h2>
             <div class="inputs">
                 <input class="create-input quiz-title" type="text" minlength="20" maxlength="65"
                     placeholder="Título do seu quizz">
                 <input class="create-input quiz-url" type="url" pattern="https://.*"
+<<<<<<< HEAD
                     placeholder="URL da imagem do seu quizz" required>
+=======
+                    placeholder="URL da imagem do seu quizz">
+>>>>>>> 1179be5fc84975f78633d133fffe58644e372a29
                 <input class="create-input quiz-number-questions" type="number" min="3"
                     placeholder="Quantidade de perguntas do quizz">
                 <input class="create-input quiz-number-levels" type="number" min="2"
@@ -147,11 +151,26 @@
         <!-- TELA 2 -->
         <div class="create-page two hidden">
             <h2>Crie suas perguntas</h2>
+<<<<<<< HEAD
             <ul class="inputs2">
 
             </ul>
             <input class="next-button" type="button" value="Prosseguir pra criar perguntas">
+=======
+            <ul class="inputs2"></ul>
+            <input onclick="stepTwo()" class="next-button" type="button" value="Prosseguir pra criar perguntas">
+>>>>>>> 1179be5fc84975f78633d133fffe58644e372a29
         </div>
+
+        <!-- TELA 3 -->
+        <div class="create-page three hidden">
+            <h2>Agora, decida os níveis!</h2>
+            <ul></ul>
+            <input onclick="stepThree()" class="next-button" type="button" value="Finalizar Quizz">
+        </div>
+        <!-- TELA 4 -->
+        <div class="create-page four hidden"></div>
+
     </section>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

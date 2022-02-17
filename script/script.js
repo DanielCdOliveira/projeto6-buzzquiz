@@ -54,21 +54,27 @@ let pageTwo = document.querySelector(".create-page.two")
 let pageThree = document.querySelector(".create-page.three")
 let pageFour = document.querySelector(".create-page.four")
 
+// ARRAYS COM PERGUNTAS E LEVELS
+let questionsArray = [];
+let levelsArray = [];
+// ARRAY DE RESPOSTAS
+let answerArray = [];
 
 function createQuiz() {
     homePage.classList.add("hidden");
     createPage.classList.remove("hidden")
 }
 
-function stepOne() {
-    quizCreating = {};
-    quizTitle = document.querySelector(".quiz-title:valid");
-    quizUrl = document.querySelector(".quiz-url:valid");
-    quizNumQuestions = document.querySelector(".quiz-number-questions:valid");
-    quizNumLevels = document.querySelector(".quiz-number-levels:valid");
 
-    if (quizTitle != null && quizUrl != null && quizNumQuestions != null && quizNumLevels != null) {
-        createQuizPartOne(quizTitle.value, quizUrl.value, quizNumQuestions.value, quizNumLevels.value);
+// FUNÇAO DO PRIMEIRO BOTAO DA PRIMEIRA TELA DE CRIAÇAO
+function stepOne() {
+    quizInCreation = {};
+    quizTitle = document.querySelector(".quiz-title:valid").value;
+    quizUrl = document.querySelector(".quiz-url:valid").value;
+    quizNumQuestions = document.querySelector(".quiz-number-questions:valid").value;
+    quizNumLevels = document.querySelector(".quiz-number-levels:valid").value;
+    if (quizTitle != "" && quizUrl != "" && quizNumQuestions != "" && quizNumLevels != "") {
+        createQuestionsLevels(quizTitle, quizUrl, quizNumQuestions, quizNumLevels);
         pageOne.classList.add("hidden")
         pageTwo.classList.remove("hidden")
 
@@ -77,52 +83,69 @@ function stepOne() {
     }
 }
 
-function createQuizPartOne(title, url, nQuestions, nLevels) {
+
+// FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 E 3 DE CRIAÇAO
+function createQuestionsLevels(title, url, nQuestions, nLevels) {
     quizInCreation = {
         title: title,
         image: url,
+        questions: questionsArray,
+        levels: levelsArray
     }
-
+    // CRIANDO LAYOUT DE INPUTS DAS QUESTIONS
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
-        <li class="question q${i} hide">
-            <div class="hidden">
-                <h2>Pergunta ${i + 1}</h2>
-                <input class="create-input" type="text" placeholder="Texto da pergunta">
-                <input class="create-input" type="text" placeholder="Cor de fundo da pergunta">
+        <li class="question hide" id="q${i}">
+            <div>
+                <h2>Pergunta ${i+1}</h2>
+                <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta">
+                <input class="create-input question-color" type="text" placeholder="Cor de fundo da pergunta">
              </div>
-            <div class="hidden>
+            <div>
                 <h2>Resposta correta</h2>
-                <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input correct-answer" type="text"  minlength="1" placeholder="Resposta correta">
+                <input class="create-input url-answer" type="url" pattern="https://.*" placeholder="URL da imagem">
             </div>
-            <div class="incorrects hidden">
+            <div class="incorrects">
                 <h2>Respostas incorretas</h2>
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" ttype="url" pattern="https://.*"" placeholder="URL da imagem">
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="text" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
         </div>
-        <img onclick="editQuestion(this)" class="edit-question" src="assets/Vector.png" alt="">
+        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="">
     </li>
+    `
+        // CRIANDO O LAYOUT DE INPUT DOS LEVELS
+    }
+    for (let i = 0; i < nLevels; i++) {
+        pageThree.querySelector("ul").innerHTML += `
+        <li class="level hide" id="l${i}">
+            <div class="text-inputs">
+                <h2>Nivel ${i+1}</h2>
+                <input class="create-input level-title"  type="text" minlength="10"
+                placeholder="Título do nível">
+                <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima">
+                <input class="create-input level-url" type="url" pattern="https://.*"
+                placeholder="URL da imagem do nível">
+                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível"></textarea> 
+        </div>
+        <img onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
+        </li>
     `
     }
 
 }
-
-
-
-
-
-function editQuestion(element) {
-    // Minimiza oq ta selecionado
-    const question = document.querySelector(".question.selected");
+// EDITA AS PERGUNTAS
+function editQuestion(element, className) {
+    // Minimiza o que ta selecionado
+    const question = document.querySelector(`.${className}.selected`);
     if (question != null) {
         question.classList.remove("selected");
         question.classList.add("hide");
-        question.querySelector(".edit-question").style.display = "block"
+        question.querySelector(".edit-question").style.display = "block";
     }
 
     // Maximiza o que foi clicado
@@ -131,6 +154,7 @@ function editQuestion(element) {
     element.style.display = "none";
 }
 
+<<<<<<< HEAD
 
 
 
@@ -415,4 +439,115 @@ function questionSelected(image, text) {
         const selectImage = document.querySelector(".question-options-2 ." + image)
         console.log(selectImage);
         selectImage.classList.remove("opacity");
+}
+=======
+//FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
+function stepTwo() {
+    pageTwo.classList.add("hidden");
+    pageThree.classList.remove("hidden");
+
+
+    for (let i = 0; i < quizNumQuestions; i++) {
+        // li da pergunta
+        let question = document.querySelector(`#q${i}`);
+        answerArray = []
+        // texto da pergunta
+        let questionText = question.querySelector(".question-text").value
+        // cor da pergunta
+        let questionColor = question.querySelector(".question-color").value
+
+        // resposta certa
+        let correctAnswer = question.querySelector(".correct-answer").value
+
+        // url da imagem certa
+        let urlAnswer = question.querySelector(".url-answer").value
+
+
+        answerArray.push({
+            text: correctAnswer,
+            image: urlAnswer,
+            isCorrectAnswer: true
+        })
+
+
+        for (let i = 0; i < 6; i++) {
+            let wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
+            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
+            if (wrong != "" && wrongUrl != "") {
+                answerArray.push({
+                    text: wrong,
+                    image: wrongUrl,
+                    isCorrectAnswer: false
+                })
+                i++;
+            }
+        }
+
+        let arrayContent = {
+            title: questionText,
+            color: questionColor,
+            answers: answerArray
+        }
+
+        questionsArray.push(arrayContent)
+
+    }
+
+}
+
+// FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
+function stepThree() {
+    pageThree.classList.add("hidden");
+    pageFour.classList.remove("hidden");
+
+    console.log(quizNumLevels)
+    for (let i = 0; i < quizNumLevels; i++) {
+
+        answerArray = [];
+
+        let level = document.querySelector(`#l${i}`);
+        console.log(level);
+
+        let levelTitle = level.querySelector(".level-title").value;
+        console.log(levelTitle);
+
+        let levelHits = level.querySelector(".level-hits").value;
+        console.log(levelHits);
+
+        let levelUrl = level.querySelector(".level-url").value;
+        console.log(levelUrl);
+
+        let levelDescription = level.querySelector(".level-description").value;
+        console.log(levelDescription);
+
+
+
+        answerArray.push({
+            title: levelTitle,
+            image: levelUrl,
+            text: levelDescription,
+            minValue: levelHits
+        })
+
+
+
+        levelsArray.push(answerArray)
+    }
+
+
+
+    console.log(levelsArray)
+
+    console.log(quizInCreation);
+    const promise = axios(QUIZ_API, quizInCreation)
+    promise.then(send)
+    promise.catch(notSend)
+}
+
+function send() {
+    console.log("enviou")
+}
+
+function notSend(response) {
+    console.log(response)
 }

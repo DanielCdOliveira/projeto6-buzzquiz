@@ -245,9 +245,17 @@ function stepThree() {
     console.log(levelsArray)
 
     console.log(quizInCreation);
-    const promise = axios(QUIZ_API, quizInCreation)
+    const promise = axios(QUIZ_API, quizInCreation, quizInCreation)
     promise.then(send)
     promise.catch(notSend)
+
+
+    let finalImage = pageFour.querySelector(".div-img")
+    finalImage.innerHTML = `
+    <img class="final-image" src="assets/test.jpg" alt="">
+    <h3>${quizInCreation.title}</h3>
+    `
+
 }
 
 function send() {

@@ -19,17 +19,25 @@ function searchQuiz() {
 }
 
 function quizDisplay(response) {
-
+    console.log(response.data); //tirar depois
+    const variavel = response.data;
     response.data.forEach(element => {
         allQuiz.innerHTML += `
-        <li class="quiz" id="${element.id}">
+        <li onclick="showSelectedQuiz(${element.id})" class="quiz" id="${element.id}">
             <img src="${element.image}" alt="">
             <h3>${element.title}</h3>
         </li>
         `
     });
 }
+
 searchQuiz()
+
+function showSelectedQuiz(idDoQuiz) {
+    console.log(idDoQuiz);
+    homePage.classList.add("hidden");
+    quizPage.classList.remove("hidden");
+}
 
 
 // Criar quiz
@@ -79,7 +87,7 @@ function createQuizPartOne(title, url, nQuestions, nLevels) {
         pageTwo.querySelector("ul").innerHTML += `
         <li class="question q${i} hide">
             <div class="hidden">
-                <h2>Pergunta ${i+1}</h2>
+                <h2>Pergunta ${i + 1}</h2>
                 <input class="create-input" type="text" placeholder="Texto da pergunta">
                 <input class="create-input" type="text" placeholder="Cor de fundo da pergunta">
              </div>
@@ -121,4 +129,290 @@ function editQuestion(element) {
     element.parentNode.classList.add("selected");
     element.parentNode.classList.remove("hide");
     element.style.display = "none";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function questionSelected(image, text) {
+    // Habilita o texto em verde 
+    const deselectedtext = document.querySelector(".question-options-2 .green")
+    // console.log (deselectedtext);
+    if (deselectedtext !== null) {
+        deselectedtext.classList.remove("green");
+    }
+    const selectedtext = document.querySelector(".question-options-2 ." + text)
+    // console.log (selectedtext);
+    selectedtext.classList.add("green");
+    for (let i = 1; i < 5; i++) {
+    const deselectImage = document.querySelector(".question-options-2 .image" + i)
+    console.log(deselectImage);
+    deselectImage.classList.add("opacity");
+    }
+        const selectImage = document.querySelector(".question-options-2 ." + image)
+        console.log(selectImage);
+        selectImage.classList.remove("opacity");
 }

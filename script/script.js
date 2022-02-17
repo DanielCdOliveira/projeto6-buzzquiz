@@ -107,11 +107,7 @@ function stepOne() {
         alert("Insira informaçoes válidas")
     }
 }
-let title = ""
-let url = ""
-let nQuestions = 2
-let nLevels = 2
-createQuestionsLevels(title, url, nQuestions, nLevels)
+
 // FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 E 3 DE CRIAÇAO
 function createQuestionsLevels(title, url, nQuestions, nLevels) {
     quizInCreation = {
@@ -187,8 +183,6 @@ function editQuestion(element, className) {
 //FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
 function stepTwo() {
 
-    // lembrar de excluir/////////////////////////////////////////////////////////
-    quizNumQuestions = 2
     let questionsComplete = 0;
     questionsArray = []
 
@@ -259,14 +253,14 @@ function stepTwo() {
                     }
 
                     questionsArray.push(arrayContent)
-                    console.log(questionsArray)
+                    
                 }
                 i++;
                 
             }
             questionsComplete++;
         } else {
-            console.log(`Preencha todos os campos da pergunta ${i+1} (pelo menos uma resposta errada)`)
+            alert(`Preencha todos os campos da pergunta ${i+1} (pelo menos uma resposta errada)`);
         }
     }
 
@@ -341,18 +335,12 @@ function stepThree() {
 function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");
-    console.log(response)
+
 
     const newQuizString = JSON.stringify(response.data);
     const newQuizID = response.data.id;
-    console.log(newQuizID);
+
     localStorage.setItem(newQuizID, newQuizString);
-
-    const quizString = localStorage.getItem(newQuizID)
-
-    currentQuiz = JSON.parse(quizString)
-
-    console.log(currentQuiz)
 }
 
 function notSend(response) {
@@ -365,17 +353,6 @@ function goToHomePage() {
 }
 
 
-
-
-
-
-
-
-
-
-// let pattern = /^#([0-9a-f]{3}){1,2}$/i;
-// console.log(pattern.test('#ABC'));
-// console.log(pattern.test('#AABBCv'));
 
 
 

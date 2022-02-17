@@ -154,7 +154,6 @@ function editQuestion(element, className) {
     element.style.display = "none";
 }
 
-<<<<<<< HEAD
 
 
 
@@ -440,7 +439,8 @@ function questionSelected(image, text) {
         console.log(selectImage);
         selectImage.classList.remove("opacity");
 }
-=======
+
+
 //FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
 function stepTwo() {
     pageTwo.classList.add("hidden");

@@ -39,7 +39,7 @@ function quizDisplay(response) {
 
             let key = localStorage.key(i);
             let quizStorage = JSON.parse(localStorage.getItem(key));
-          
+
 
 
 
@@ -50,7 +50,7 @@ function quizDisplay(response) {
             </li>
             `
         }
-    } else{
+    } else {
         let noQuiz = document.querySelector(".no-quiz")
         noQuiz.classList.remove("hidden")
     }
@@ -70,7 +70,7 @@ function showSelectedQuiz(idDoQuiz) {
 let quizInCreation = {};
 let quizTitle = null;
 let quizUrl = null;
-let quizNumQuestions = null;
+let valuequizNumQuestions = null;
 let quizNumLevels = null;
 
 // PAGINAS USADAS DURANTE A CRIAÇAO
@@ -94,12 +94,12 @@ function createQuiz() {
 // FUNÇAO DO PRIMEIRO BOTAO DA PRIMEIRA TELA DE CRIAÇAO
 function stepOne() {
     quizInCreation = {};
-    quizTitle = document.querySelector(".quiz-title:valid").value;
-    quizUrl = document.querySelector(".quiz-url:valid").value;
-    quizNumQuestions = document.querySelector(".quiz-number-questions:valid").value;
-    quizNumLevels = document.querySelector(".quiz-number-levels:valid").value;
-    if (quizTitle != "" && quizUrl != "" && quizNumQuestions != "" && quizNumLevels != "") {
-        createQuestionsLevels(quizTitle, quizUrl, quizNumQuestions, quizNumLevels);
+    quizTitle = document.querySelector(".quiz-title:valid");
+    quizUrl = document.querySelector(".quiz-url:valid");
+    quizNumQuestions = document.querySelector(".quiz-number-questions:valid");
+    quizNumLevels = document.querySelector(".quiz-number-levels:valid");
+    if (quizTitle != null && quizUrl != null && quizNumQuestions != null && quizNumLevels != null) {
+        createQuestionsLevels(quizTitle.value, quizUrl.value, quizNumQuestions.value, quizNumLevels.value);
         pageOne.classList.add("hidden")
         pageTwo.classList.remove("hidden")
 
@@ -107,8 +107,11 @@ function stepOne() {
         alert("Insira informaçoes válidas")
     }
 }
-
-
+let title = ""
+let url = ""
+let nQuestions = 2
+let nLevels = 2
+createQuestionsLevels(title, url, nQuestions, nLevels)
 // FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 E 3 DE CRIAÇAO
 function createQuestionsLevels(title, url, nQuestions, nLevels) {
     quizInCreation = {
@@ -118,29 +121,31 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         levels: levelsArray
     }
     // CRIANDO LAYOUT DE INPUTS DAS QUESTIONS
+    // lembrar de excluir////////////////////////////////////////////////////
+
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
         <li class="question hide" id="q${i}">
             <div>
                 <h2>Pergunta ${i+1}</h2>
-                <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta">
-                <input class="create-input question-color" type="text" placeholder="Cor de fundo da pergunta">
+                <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta" required>
+                <input class="create-input question-color" type="text" maxlength="7" placeholder="Cor de fundo da pergunta" required>
              </div>
             <div>
                 <h2>Resposta correta</h2>
-                <input class="create-input correct-answer" type="text"  minlength="1" placeholder="Resposta correta">
-                <input class="create-input url-answer" type="url" pattern="https://.*" placeholder="URL da imagem">
+                <input class="create-input correct-answer" type="text" placeholder="Resposta correta" required>
+                <input class="create-input url-answer" type="url" pattern="https://.*" placeholder="URL da imagem" required>
             </div>
             <div class="incorrects">
                 <h2>Respostas incorretas</h2>
+                <input class="create-input" type="text" placeholder="Resposta correta" required>
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem" required>
+                <input class="create-input" type="text" placeholder="Resposta correta" required >
+                <input class="create-input" ttype="url" pattern="https://.*"" placeholder="URL da imagem" required>
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
-                <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" ttype="url" pattern="https://.*"" placeholder="URL da imagem">
-                <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem" required>
         </div>
-        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="">
+        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="" required> 
     </li>
     `
         // CRIANDO O LAYOUT DE INPUT DOS LEVELS
@@ -151,11 +156,11 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
             <div class="text-inputs">
                 <h2>Nivel ${i+1}</h2>
                 <input class="create-input level-title"  type="text" minlength="10"
-                placeholder="Título do nível">
-                <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima">
+                placeholder="Título do nível" required>
+                <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima" required>
                 <input class="create-input level-url" type="url" pattern="https://.*"
-                placeholder="URL da imagem do nível">
-                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível"></textarea> 
+                placeholder="URL da imagem do nível" required>
+                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível" required></textarea> 
         </div>
         <img onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
         </li>
@@ -181,58 +186,101 @@ function editQuestion(element, className) {
 
 //FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
 function stepTwo() {
-    pageTwo.classList.add("hidden");
-    pageThree.classList.remove("hidden");
 
+    // lembrar de excluir/////////////////////////////////////////////////////////
+    quizNumQuestions = 2
+    let questionsComplete = 0;
+    questionsArray = []
 
     for (let i = 0; i < quizNumQuestions; i++) {
+
+        
+        // array com as respostas do usuario
+        answerArray = []
+
+        // Pattern para verificar hexadecimal
+        let pattern = /^#([0-9a-f]{3}){1,2}$/i;
+
         // li da pergunta
         let question = document.querySelector(`#q${i}`);
-        answerArray = []
+
         // texto da pergunta
-        let questionText = question.querySelector(".question-text").value
+        let questionText = question.querySelector(".question-text:valid")
+
         // cor da pergunta
-        let questionColor = question.querySelector(".question-color").value
+        let questionColor = question.querySelector(".question-color:valid")
 
         // resposta certa
-        let correctAnswer = question.querySelector(".correct-answer").value
+        let correctAnswer = question.querySelector(".correct-answer:valid")
 
         // url da imagem certa
-        let urlAnswer = question.querySelector(".url-answer").value
+        let urlAnswer = question.querySelector(".url-answer:valid")
 
+        let incorrectAnswers = 0
 
-        answerArray.push({
-            text: correctAnswer,
-            image: urlAnswer,
-            isCorrectAnswer: true
-        })
+        if (questionText != null && questionColor != null && correctAnswer != null && urlAnswer != null) {
+            if (correctAnswer.value != "" && pattern.test(questionColor.value)) {
 
-
-        for (let i = 0; i < 6; i++) {
-            let wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
-            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
-            if (wrong != "" && wrongUrl != "") {
-                answerArray.push({
-                    text: wrong,
-                    image: wrongUrl,
-                    isCorrectAnswer: false
-                })
-
+                for (let j = 0; j < 6; j++) {
+                    let wrong = question.querySelector(".incorrects").querySelectorAll("input")[j].value
+                    let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[j + 1].value
+                    if (wrong != "" && wrongUrl != "") {
+                        incorrectAnswers++;
+                    }
+                    j++;
+                }
+                
             }
-            i++;
         }
+       
+        if ( incorrectAnswers > 0) {
 
-        let arrayContent = {
-            title: questionText,
-            color: questionColor,
-            answers: answerArray
+            answerArray.push({
+                text: correctAnswer.value,
+                image: urlAnswer.value,
+                isCorrectAnswer: true
+            })
+
+
+            for (let i = 0; i < 6; i++) {
+                wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
+                wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
+                if (wrong != "" && wrongUrl != "") {
+
+                    answerArray.push({
+                        text: wrong,
+                        image: wrongUrl,
+                        isCorrectAnswer: false
+                    })
+                    let arrayContent = {
+                        title: questionText.value,
+                        color: questionColor.value,
+                        answers: answerArray
+                    }
+
+                    questionsArray.push(arrayContent)
+                    console.log(questionsArray)
+                }
+                i++;
+                
+            }
+            questionsComplete++;
+        } else {
+            console.log(`Preencha todos os campos da pergunta ${i+1} (pelo menos uma resposta errada)`)
         }
-
-        questionsArray.push(arrayContent)
-
     }
 
+
+
+    if(questionsComplete === quizNumQuestions){
+        pageTwo.classList.add("hidden");
+        pageThree.classList.remove("hidden");
+    }
 }
+
+
+
+
 
 // FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
 function stepThree() {
@@ -305,17 +353,16 @@ function send(response) {
     currentQuiz = JSON.parse(quizString)
 
     console.log(currentQuiz)
-
-
-
-
-
 }
 
 function notSend(response) {
     console.log(response)
 }
 
+// voltar para pagina inicial
+function goToHomePage() {
+    location.reload();
+}
 
 
 
@@ -325,6 +372,10 @@ function notSend(response) {
 
 
 
+
+// let pattern = /^#([0-9a-f]{3}){1,2}$/i;
+// console.log(pattern.test('#ABC'));
+// console.log(pattern.test('#AABBCv'));
 
 
 

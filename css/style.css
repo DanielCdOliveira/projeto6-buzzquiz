@@ -423,9 +423,9 @@ main {
     display: none;
 }
 
-input:invalid {
-    border: 2px solid var(--red-color);
-}
+/* input:invalid {
+        border: 2px solid var(--red-color);
+} */
 
 
 

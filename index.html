@@ -130,13 +130,13 @@
             <h2>Comece pelo começo</h2>
             <div class="inputs">
                 <input class="create-input quiz-title" type="text" minlength="20" maxlength="65"
-                    placeholder="Título do seu quizz">
+                    placeholder="Título do seu quizz " required>
                 <input class="create-input quiz-url" type="url" pattern="https://.*"
-                    placeholder="URL da imagem do seu quizz">
+                    placeholder="URL da imagem do seu quizz" required>
                 <input class="create-input quiz-number-questions" type="number" min="3"
-                    placeholder="Quantidade de perguntas do quizz">
+                    placeholder="Quantidade de perguntas do quizz" required>
                 <input class="create-input quiz-number-levels" type="number" min="2"
-                    placeholder="Quantidade de níveis do quizz">
+                    placeholder="Quantidade de níveis do quizz" required>
 
             </div>
             <input onclick="stepOne()" class="next-button" type="button" value="Prosseguir pra criar perguntas">
@@ -164,8 +164,8 @@
             <div class="div-img">
 
             </div>
-            <input onclick="stepThree()" class="final-button" type="button" value="Acessar Quizz">
-            <input onclick="stepThree()" class="home-button" type="button" value="Voltar pra home">
+            <input onclick="" class="final-button" type="button" value="Acessar Quizz">
+            <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
             <!-- </div> -->
         </div>
 

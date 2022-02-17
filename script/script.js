@@ -21,7 +21,7 @@ function searchQuiz() {
 function quizDisplay(response) {
     console.log(response.data); //tirar depois
     const variavel = response.data;
-    
+
     variavel.forEach(element => {
         allQuiz.innerHTML += `
         <li onclick="showSelectedQuiz(${element.id})" class="quiz" id="${element.id}">
@@ -30,6 +30,30 @@ function quizDisplay(response) {
         </li>
         `
     });
+
+    if (localStorage.length > 0) {
+        let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
+        let existQuiz = document.querySelector(".exist-quiz")
+        existQuiz.classList.remove("hidden")
+        for (let i = 0; i < localStorage.length; i++) {
+
+            let key = localStorage.key(i);
+            let quizStorage = JSON.parse(localStorage.getItem(key));
+          
+
+
+
+            myQuiz.innerHTML += `
+            <li onclick="showSelectedQuiz(${quizStorage.id})" class="quiz" id="${quizStorage.id}">
+                <img src="${quizStorage.image}" alt="">
+                <h3>${quizStorage.title}</h3>
+            </li>
+            `
+        }
+    } else{
+        let noQuiz = document.querySelector(".no-quiz")
+        noQuiz.classList.remove("hidden")
+    }
 }
 
 searchQuiz()
@@ -193,7 +217,7 @@ function stepTwo() {
                     image: wrongUrl,
                     isCorrectAnswer: false
                 })
-                
+
             }
             i++;
         }
@@ -212,8 +236,7 @@ function stepTwo() {
 
 // FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
 function stepThree() {
-    pageThree.classList.add("hidden");
-    pageFour.classList.remove("hidden");
+
 
     console.log(quizNumLevels)
     for (let i = 0; i < quizNumLevels; i++) {
@@ -268,7 +291,25 @@ function stepThree() {
 }
 
 function send(response) {
-    console.log(response.data)
+    pageThree.classList.add("hidden");
+    pageFour.classList.remove("hidden");
+    console.log(response)
+
+    const newQuizString = JSON.stringify(response.data);
+    const newQuizID = response.data.id;
+    console.log(newQuizID);
+    localStorage.setItem(newQuizID, newQuizString);
+
+    const quizString = localStorage.getItem(newQuizID)
+
+    currentQuiz = JSON.parse(quizString)
+
+    console.log(currentQuiz)
+
+
+
+
+
 }
 
 function notSend(response) {
@@ -550,14 +591,11 @@ function questionSelected(image, text) {
     // console.log (selectedtext);
     selectedtext.classList.add("green");
     for (let i = 1; i < 5; i++) {
-    const deselectImage = document.querySelector(".question-options-2 .image" + i)
-    console.log(deselectImage);
-    deselectImage.classList.add("opacity");
+        const deselectImage = document.querySelector(".question-options-2 .image" + i)
+        console.log(deselectImage);
+        deselectImage.classList.add("opacity");
     }
-        const selectImage = document.querySelector(".question-options-2 ." + image)
-        console.log(selectImage);
-        selectImage.classList.remove("opacity");
+    const selectImage = document.querySelector(".question-options-2 ." + image)
+    console.log(selectImage);
+    selectImage.classList.remove("opacity");
 }
-
-
-

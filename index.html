@@ -25,36 +25,29 @@
 
         <!-- TELA INICIAL -->
         <section class="home-page">
+
+            <!-- MEUS QUIZ -->
             <div class="my-quiz">
                 <!-- SE NAO TIVER CRIADO NENHUM quiz -->
-                <div class="no-quiz">
+                <div class="no-quiz hidden">
                     <p>Você não criou nenhum quiz ainda :(</p>
                     <span onclick="createQuiz()">Criar Quiz</span>
                 </div>
                 <!-- ALGUM quiz JA FOI CRIADO -->
-                <!-- <div class="my-quiz-title">
-                    <h2>Seus Quizzes</h2>
-                    <ion-icon name="add-circle"></ion-icon>
+                <div class="exist-quiz hidden">
+                    <div class="my-quiz-title">
+                        <h2>Seus Quizzes</h2>
+                        <ion-icon onclick="createQuiz()" name="add-circle"></ion-icon>
+                    </div>
+                    <ul class="quiz-container"></ul>
                 </div>
-            
-                <ul class="quiz-container">
-                    <li class="quiz">
-                        <img src="assets/test.jpg" alt="">
-                        <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
-                            corretos dos Simpson Simpsons e prove seu amor!</h3>
-                    </li>
-                    <li class="quiz">
-                        <img src="assets/test.jpg" alt="">
-                        <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
-                            corretos dos Simpson Simpsons e prove seu amor!</h3>
-                    </li>
-            
-                </ul> -->
             </div>
+            <!-- QUIZ DO SERVIDOR -->
             <div class="all-quiz">
                 <h2>Todos os Quizzes</h2>
                 <ul class="quiz-container"></ul>
             </div>
+
         </section>
 
 
@@ -100,7 +93,8 @@
                 </div>
                 <div class="question_options_2">
                     <div class="question_section">
-                        <div onclick="questionSelected('image1','text1')" class="image1 question_section_container image_left">
+                        <div onclick="questionSelected('image1','text1')"
+                            class="image1 question_section_container image_left">
                             <img src="./assets/test.jpg">
                             <p class="text1">Texto da pergunta</p>
                         </div>
@@ -111,7 +105,8 @@
                         </div>
                     </div>
                     <div class="question_section">
-                        <div onclick="questionSelected('image3','text3')" class="image3 question_section_container image_left">
+                        <div onclick="questionSelected('image3','text3')"
+                            class="image3 question_section_container image_left">
                             <img src="./assets/test.jpg">
                             <p class="text3">Texto da pergunta</p>
                         </div>
@@ -165,12 +160,12 @@
         <!-- TELA 4 -->
         <div class="create-page four hidden ">
             <!-- <div class="four-container"> -->
-                <h2>Seu quizz está pronto!</h2>
-                <div class="div-img">
-                    
-                </div>
-                <input onclick="stepThree()" class="final-button" type="button" value="Acessar Quizz">
-                <input onclick="stepThree()" class="home-button" type="button" value="Voltar pra home">
+            <h2>Seu quizz está pronto!</h2>
+            <div class="div-img">
+
+            </div>
+            <input onclick="stepThree()" class="final-button" type="button" value="Acessar Quizz">
+            <input onclick="stepThree()" class="home-button" type="button" value="Voltar pra home">
             <!-- </div> -->
         </div>
 

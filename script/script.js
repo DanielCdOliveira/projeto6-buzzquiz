@@ -70,7 +70,7 @@ function showSelectedQuiz(idDoQuiz) {
 let quizInCreation = {};
 let quizTitle = null;
 let quizUrl = null;
-let valuequizNumQuestions = null;
+let quizNumQuestions = null;
 let quizNumLevels = null;
 
 // PAGINAS USADAS DURANTE A CRIAÇAO
@@ -186,7 +186,7 @@ function stepTwo() {
     let questionsComplete = 0;
     questionsArray = []
 
-    for (let i = 0; i < quizNumQuestions; i++) {
+    for (let i = 0; i < quizNumQuestions.value; i++) {
 
         
         // array com as respostas do usuario

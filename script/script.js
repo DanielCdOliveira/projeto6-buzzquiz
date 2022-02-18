@@ -21,7 +21,8 @@ function searchQuiz() {
 function quizDisplay(response) {
     console.log(response.data); //tirar depois
     const variavel = response.data;
-    response.data.forEach(element => {
+
+    variavel.forEach(element => {
         allQuiz.innerHTML += `
         <li onclick="selectedQuiz(${element.id})" class="quiz" id="${element.id}">
             <img src="${element.image}" alt="">
@@ -29,6 +30,30 @@ function quizDisplay(response) {
         </li>
         `
     });
+
+    if (localStorage.length > 0) {
+        let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
+        let existQuiz = document.querySelector(".exist-quiz")
+        existQuiz.classList.remove("hidden")
+        for (let i = 0; i < localStorage.length; i++) {
+
+            let key = localStorage.key(i);
+            let quizStorage = JSON.parse(localStorage.getItem(key));
+
+
+
+
+            myQuiz.innerHTML += `
+            <li onclick="showSelectedQuiz(${quizStorage.id})" class="quiz" id="${quizStorage.id}">
+                <img src="${quizStorage.image}" alt="">
+                <h3>${quizStorage.title}</h3>
+            </li>
+            `
+        }
+    } else {
+        let noQuiz = document.querySelector(".no-quiz")
+        noQuiz.classList.remove("hidden")
+    }
 }
 
 searchQuiz()
@@ -54,11 +79,8 @@ function mostrarQuiz(APIData) {
     
     quizPage.innerHTML += `
             <div class="quiz_title">
-                <div class="black_screen">
-                </div>
                 <img src=${data.image}>
                 <p>${data.title} do quiz</p>
-
             </div>
         `
     for (let i = 0; i < questionqntd; i++) {
@@ -116,12 +138,12 @@ function createQuiz() {
 // FUNÇAO DO PRIMEIRO BOTAO DA PRIMEIRA TELA DE CRIAÇAO
 function stepOne() {
     quizInCreation = {};
-    quizTitle = document.querySelector(".quiz-title:valid").value;
-    quizUrl = document.querySelector(".quiz-url:valid").value;
-    quizNumQuestions = document.querySelector(".quiz-number-questions:valid").value;
-    quizNumLevels = document.querySelector(".quiz-number-levels:valid").value;
-    if (quizTitle != "" && quizUrl != "" && quizNumQuestions != "" && quizNumLevels != "") {
-        createQuestionsLevels(quizTitle, quizUrl, quizNumQuestions, quizNumLevels);
+    quizTitle = document.querySelector(".quiz-title:valid");
+    quizUrl = document.querySelector(".quiz-url:valid");
+    quizNumQuestions = document.querySelector(".quiz-number-questions:valid");
+    quizNumLevels = document.querySelector(".quiz-number-levels:valid");
+    if (quizTitle != null && quizUrl != null && quizNumQuestions != null && quizNumLevels != null) {
+        createQuestionsLevels(quizTitle.value, quizUrl.value, quizNumQuestions.value, quizNumLevels.value);
         pageOne.classList.add("hidden")
         pageTwo.classList.remove("hidden")
 
@@ -140,29 +162,31 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         levels: levelsArray
     }
     // CRIANDO LAYOUT DE INPUTS DAS QUESTIONS
+
+
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
         <li class="question hide" id="q${i}">
             <div>
-                <h2>Pergunta ${i + 1}</h2>
-                <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta">
-                <input class="create-input question-color" type="text" placeholder="Cor de fundo da pergunta">
+                <h2>Pergunta ${i+1}</h2>
+                <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta" required>
+                <input class="create-input question-color" type="text" maxlength="7" placeholder="Cor de fundo da pergunta" required>
              </div>
             <div>
                 <h2>Resposta correta</h2>
-                <input class="create-input correct-answer" type="text"  minlength="1" placeholder="Resposta correta">
-                <input class="create-input url-answer" type="url" pattern="https://.*" placeholder="URL da imagem">
+                <input class="create-input correct-answer" type="text" placeholder="Resposta correta" required>
+                <input class="create-input url-answer" type="url" pattern="https://.*" placeholder="URL da imagem" required>
             </div>
             <div class="incorrects">
                 <h2>Respostas incorretas</h2>
+                <input class="create-input" type="text" placeholder="Resposta correta" required>
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem" required>
+                <input class="create-input" type="text" placeholder="Resposta correta" required >
+                <input class="create-input" ttype="url" pattern="https://.*"" placeholder="URL da imagem" required>
                 <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
-                <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" ttype="url" pattern="https://.*"" placeholder="URL da imagem">
-                <input class="create-input" type="text" placeholder="Resposta correta">
-                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem">
+                <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem" required>
         </div>
-        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="">
+        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="" required> 
     </li>
     `
         // CRIANDO O LAYOUT DE INPUT DOS LEVELS
@@ -173,11 +197,11 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
             <div class="text-inputs">
                 <h2>Nivel ${i + 1}</h2>
                 <input class="create-input level-title"  type="text" minlength="10"
-                placeholder="Título do nível">
-                <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima">
+                placeholder="Título do nível" required>
+                <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima" required>
                 <input class="create-input level-url" type="url" pattern="https://.*"
-                placeholder="URL da imagem do nível">
-                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível"></textarea> 
+                placeholder="URL da imagem do nível" required>
+                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível" required></textarea> 
         </div>
         <img onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
         </li>
@@ -201,15 +225,192 @@ function editQuestion(element, className) {
     element.style.display = "none";
 }
 
+//FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
+function stepTwo() {
+
+    let questionsComplete = 0;
+    questionsArray = []
+
+    for (let i = 0; i < quizNumQuestions.value; i++) {
+
+
+        // array com as respostas do usuario
+        answerArray = []
+
+        // Pattern para verificar hexadecimal
+        let pattern = /^#([0-9a-f]{6})$/i;
+
+        // li da pergunta
+        let question = document.querySelector(`#q${i}`);
+
+        // texto da pergunta
+        let questionText = question.querySelector(".question-text:valid")
+
+        // cor da pergunta
+        let questionColor = question.querySelector(".question-color:valid")
+
+        // resposta certa
+        let correctAnswer = question.querySelector(".correct-answer:valid")
+
+        // url da imagem certa
+        let urlAnswer = question.querySelector(".url-answer:valid")
+
+        let incorrectAnswers = 0
+
+        if (questionText != null && questionColor != null && correctAnswer != null && urlAnswer != null) {
+            if (correctAnswer.value != "" && pattern.test(questionColor.value)) {
+
+                for (let j = 0; j < 6; j++) {
+                    let wrong = question.querySelector(".incorrects").querySelectorAll("input")[j].value
+                    let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[j + 1].value
+                    if (wrong != "" && wrongUrl != "") {
+                        incorrectAnswers++;
+                    }
+                    j++;
+                }
+
+            }
+        }
+
+        if (incorrectAnswers > 0) {
+
+            answerArray.push({
+                text: correctAnswer.value,
+                image: urlAnswer.value,
+                isCorrectAnswer: true
+            })
+
+
+            for (let i = 0; i < 6; i++) {
+                wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
+                wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
+                if (wrong != "" && wrongUrl != "") {
+
+                    answerArray.push({
+                        text: wrong,
+                        image: wrongUrl,
+                        isCorrectAnswer: false
+                    })
+
+
+
+                }
+                i++;
+
+            }
+            questionsComplete++;
+
+            let arrayContent = {
+                title: questionText.value,
+                color: questionColor.value,
+                answers: answerArray
+            }
+
+            questionsArray.push(arrayContent);
+        } else {
+            alert(`Preencha todos os campos da pergunta ${i+1} (pelo menos uma resposta errada)`);
+        }
+
+
+    }
+
+
+    console.log(questionsComplete)
+    if (questionsComplete == quizNumQuestions.value) {
+        pageTwo.classList.add("hidden");
+        pageThree.classList.remove("hidden");
+        quizInCreation.questions = questionsArray
+        console.log(quizInCreation)
+    }
+}
 
 
 
 
+// FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
+function stepThree() {
+
+    // verificar se tem alguma porcentagem = 0
+    let minZero = false
+    // zerar o array caso de problema no preenchimento
+    levelsArray = []
 
 
+    for (let i = 0; i < quizNumLevels.value; i++) {
+        // obejeto que ficara as resposta do usuario
+        let answerObject = {};
+        // li do level em questao
+        let level = document.querySelector(`#l${i}`);
+        // titulo do level
+        let levelTitle = level.querySelector(".level-title:valid");
+        // porcentagem do level
+        let levelHits = level.querySelector(".level-hits:valid");
+        // url da imagem do level
+        let levelUrl = level.querySelector(".level-url:valid");
+        // descriçao do level
+        let levelDescription = level.querySelector(".level-description:valid");
+
+        // verfica se os campos estao preenchidos
+        if (levelTitle != null && levelHits != null && levelUrl != null && levelDescription != null) {
+            console.log("entra aqui");
+            answerObject = {
+                title: levelTitle.value,
+                image: levelUrl.value,
+                text: levelDescription.value,
+                minValue: parseInt(levelHits.value)
+            }
+            if (parseInt(levelHits.value) == 0) {
+                minZero = true
+            }
+            levelsArray.push(answerObject)
+
+        } else {
+            alert(`Preencha todos os campos do level ${i+1}`)
+        }
 
 
+    }
+    console.log(quizInCreation)
+    quizInCreation.levels = levelsArray
+    console.log(quizInCreation)
 
+    if (minZero) {
+        //   tudo deu certo envia pro servidor
+        const promise = axios.post(QUIZ_API, quizInCreation)
+        promise.then(send)
+        promise.catch(notSend)
+
+        // altera o layout da pagina 4
+        let finalImage = pageFour.querySelector(".div-img")
+        finalImage.innerHTML = `
+        <img class="final-image" src="${quizInCreation.image}" alt="">
+        <h3>${quizInCreation.title}</h3>
+    `
+    } else {
+        alert("Pelo menos um dos valores da porcentagem deve ser ZERO")
+    }
+
+}
+
+
+// 
+function send(response) {
+    pageThree.classList.add("hidden");
+    pageFour.classList.remove("hidden");
+
+    const newQuizID = response.data.id;
+
+    localStorage.setItem(newQuizID, newQuizID);
+}
+
+function notSend(response) {
+    console.log(response)
+}
+
+// voltar para pagina inicial
+function goToHomePage() {
+    location.reload();
+}
 
 
 
@@ -488,120 +689,4 @@ function selecionarQuestão(image, text) {
     const selectImage = document.querySelector(".question_options ." + image)
     console.log(selectImage);
     selectImage.classList.remove("opacity");
-}
-
-// function showQuiz () {
-//     const promise = axios.get(QUIZ_API)
-//     promise.then(quizDisplay);
-// }
-
-//FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
-function stepTwo() {
-    pageTwo.classList.add("hidden");
-    pageThree.classList.remove("hidden");
-
-
-    for (let i = 0; i < quizNumQuestions; i++) {
-        // li da pergunta
-        let question = document.querySelector(`#q${i}`);
-        answerArray = []
-        // texto da pergunta
-        let questionText = question.querySelector(".question-text").value
-        // cor da pergunta
-        let questionColor = question.querySelector(".question-color").value
-
-        // resposta certa
-        let correctAnswer = question.querySelector(".correct-answer").value
-
-        // url da imagem certa
-        let urlAnswer = question.querySelector(".url-answer").value
-
-
-        answerArray.push({
-            text: correctAnswer,
-            image: urlAnswer,
-            isCorrectAnswer: true
-        })
-
-
-        for (let i = 0; i < 6; i++) {
-            let wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
-            let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
-            if (wrong != "" && wrongUrl != "") {
-                answerArray.push({
-                    text: wrong,
-                    image: wrongUrl,
-                    isCorrectAnswer: false
-                })
-                i++;
-            }
-        }
-
-        let arrayContent = {
-            title: questionText,
-            color: questionColor,
-            answers: answerArray
-        }
-
-        questionsArray.push(arrayContent)
-
-    }
-
-}
-
-// FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
-function stepThree() {
-    pageThree.classList.add("hidden");
-    pageFour.classList.remove("hidden");
-
-    console.log(quizNumLevels)
-    for (let i = 0; i < quizNumLevels; i++) {
-
-        answerArray = [];
-
-        let level = document.querySelector(`#l${i}`);
-        console.log(level);
-
-        let levelTitle = level.querySelector(".level-title").value;
-        console.log(levelTitle);
-
-        let levelHits = level.querySelector(".level-hits").value;
-        console.log(levelHits);
-
-        let levelUrl = level.querySelector(".level-url").value;
-        console.log(levelUrl);
-
-        let levelDescription = level.querySelector(".level-description").value;
-        console.log(levelDescription);
-
-
-
-        answerArray.push({
-            title: levelTitle,
-            image: levelUrl,
-            text: levelDescription,
-            minValue: levelHits
-        })
-
-
-
-        levelsArray.push(answerArray)
-    }
-
-
-
-    console.log(levelsArray)
-
-    console.log(quizInCreation);
-    const promise = axios(QUIZ_API, quizInCreation)
-    promise.then(send)
-    promise.catch(notSend)
-}
-
-function send() {
-    console.log("enviou")
-}
-
-function notSend(response) {
-    console.log(response)
 }

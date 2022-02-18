@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -21,44 +21,33 @@
         <h1>BuzzQuizz</h1>
     </header>
 
-    <main>
 
-        <!-- TELA INICIAL -->
-        <section class="home-page">
-            <div class="my-quiz">
-                <!-- SE NAO TIVER CRIADO NENHUM quiz -->
-                <div class="no-quiz">
-                    <p>Você não criou nenhum quiz ainda :(</p>
-                    <span onclick="createQuiz()">Criar Quiz</span>
-                </div>
-                <!-- ALGUM quiz JA FOI CRIADO -->
-                <!-- <div class="my-quiz-title">
-                    <h2>Seus Quizzes</h2>
-                    <ion-icon name="add-circle"></ion-icon>
-                </div>
-            
-                <ul class="quiz-container">
-                    <li class="quiz">
-                        <img src="assets/test.jpg" alt="">
-                        <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
-                            corretos dos Simpson Simpsons e prove seu amor!</h3>
-                    </li>
-                    <li class="quiz">
-                        <img src="assets/test.jpg" alt="">
-                        <h3>Acerte os personagens corretos do scerte os personagens corretos dos Simp scerte os personagens
-                            corretos dos Simpson Simpsons e prove seu amor!</h3>
-                    </li>
-            
-                </ul> -->
+    <!-- TELA INICIAL -->
+    <section class="home-page">
+
+        <!-- MEUS QUIZ -->
+        <div class="my-quiz">
+            <!-- SE NAO TIVER CRIADO NENHUM quiz -->
+            <div class="no-quiz hidden">
+                <p>Você não criou nenhum quiz ainda :(</p>
+                <span onclick="createQuiz()">Criar Quiz</span>
             </div>
-            <div class="all-quiz">
-                <h2>Todos os Quizzes</h2>
+            <!-- ALGUM quiz JA FOI CRIADO -->
+            <div class="exist-quiz hidden">
+                <div class="my-quiz-title">
+                    <h2>Seus Quizzes</h2>
+                    <ion-icon onclick="createQuiz()" name="add-circle"></ion-icon>
+                </div>
                 <ul class="quiz-container"></ul>
             </div>
-        </section>
+        </div>
+        <!-- QUIZ DO SERVIDOR -->
+        <div class="all-quiz">
+            <h2>Todos os Quizzes</h2>
+            <ul class="quiz-container"></ul>
+        </div>
 
-
-
+    </section>
 
         <!-- TELA DE EXIBIÇÃO DE QUIZ -->
         <section class="quiz-page hidden">
@@ -95,7 +84,6 @@
         </section>
 
 
-    </main>
     <!-- TELA DE CRIAR QUIZ -->
     <section class="create-quiz hidden">
 
@@ -104,13 +92,13 @@
             <h2>Comece pelo começo</h2>
             <div class="inputs">
                 <input class="create-input quiz-title" type="text" minlength="20" maxlength="65"
-                    placeholder="Título do seu quizz">
+                    placeholder="Título do seu quizz " required>
                 <input class="create-input quiz-url" type="url" pattern="https://.*"
-                    placeholder="URL da imagem do seu quizz">
+                    placeholder="URL da imagem do seu quizz" required>
                 <input class="create-input quiz-number-questions" type="number" min="3"
-                    placeholder="Quantidade de perguntas do quizz">
+                    placeholder="Quantidade de perguntas do quizz" required>
                 <input class="create-input quiz-number-levels" type="number" min="2"
-                    placeholder="Quantidade de níveis do quizz">
+                    placeholder="Quantidade de níveis do quizz" required>
 
             </div>
             <input onclick="stepOne()" class="next-button" type="button" value="Prosseguir pra criar perguntas">
@@ -130,8 +118,18 @@
             <ul></ul>
             <input onclick="stepThree()" class="next-button" type="button" value="Finalizar Quizz">
         </div>
+
         <!-- TELA 4 -->
-        <div class="create-page four hidden"></div>
+        <div class="create-page four hidden ">
+            <!-- <div class="four-container"> -->
+            <h2>Seu quizz está pronto!</h2>
+            <div class="div-img">
+
+            </div>
+            <input onclick="" class="final-button" type="button" value="Acessar Quizz">
+            <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
+            <!-- </div> -->
+        </div>
 
     </section>
 

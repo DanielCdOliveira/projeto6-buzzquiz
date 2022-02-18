@@ -23,7 +23,7 @@ function quizDisplay(response) {
     const variavel = response.data;
     response.data.forEach(element => {
         allQuiz.innerHTML += `
-        <li onclick="showSelectedQuiz(${element.id})" class="quiz" id="${element.id}">
+        <li onclick="selectedQuiz(${element.id})" class="quiz" id="${element.id}">
             <img src="${element.image}" alt="">
             <h3>${element.title}</h3>
         </li>
@@ -33,12 +33,59 @@ function quizDisplay(response) {
 
 searchQuiz()
 
-function showSelectedQuiz(idDoQuiz) {
-    console.log(idDoQuiz);
+function selectedQuiz(idDoQuiz) {
+    //   console.log(idDoQuiz);
     homePage.classList.add("hidden");
     quizPage.classList.remove("hidden");
+    const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
+    // promise.then(showTitleQuiz);
+     promise.then(mostrarQuiz);
 }
 
+function mostrarQuiz(APIData) {
+    const data = APIData.data;
+    console.log(data)
+    const allQuestions = data.questions;
+    //console.log(allQuestions);
+    let questionTitle = allQuestions;
+    const questionqntd = questionTitle.length;    
+    let answer = "";
+    let answerqntd = "";
+    
+    quizPage.innerHTML += `
+            <div class="quiz_title">
+                <div class="black_screen">
+                </div>
+                <img src=${data.image}>
+                <p>${data.title} do quiz</p>
+
+            </div>
+        `
+    for (let i = 0; i < questionqntd; i++) {
+        answer = questionTitle[i].answers;
+        answerqntd = answer.length;
+        quizPage.innerHTML += `
+            <div class="quiz_questions q${i}">
+                <div class="question_text">
+                    <p> ${questionTitle[i].title} </p>
+                </div>
+                <div class="question_options o${i}">
+                </div>
+            </div>
+        `
+    const lugarcerto = document.querySelector(".o"+i);
+        // console.log (lugarcerto);
+        
+        for (let j = 0; j < answerqntd; j++) {
+            lugarcerto.innerHTML += `
+                <div onclick="selecionarQuestão('image${j}','text${j}')" class="question_section_container image${j}">
+                    <img src=${answer[j].image}>
+                    <p class="text${j}">${answer[j].text}</p>
+                </div>
+            `
+        }
+    }
+}
 
 // Criar quiz
 // Objeto que sera o quiz criado
@@ -97,7 +144,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         pageTwo.querySelector("ul").innerHTML += `
         <li class="question hide" id="q${i}">
             <div>
-                <h2>Pergunta ${i+1}</h2>
+                <h2>Pergunta ${i + 1}</h2>
                 <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta">
                 <input class="create-input question-color" type="text" placeholder="Cor de fundo da pergunta">
              </div>
@@ -124,7 +171,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         pageThree.querySelector("ul").innerHTML += `
         <li class="level hide" id="l${i}">
             <div class="text-inputs">
-                <h2>Nivel ${i+1}</h2>
+                <h2>Nivel ${i + 1}</h2>
                 <input class="create-input level-title"  type="text" minlength="10"
                 placeholder="Título do nível">
                 <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima">
@@ -420,26 +467,33 @@ function editQuestion(element, className) {
 
 
 
-function questionSelected(image, text) {
+
+
+function selecionarQuestão(image, text) {
     // Habilita o texto em verde 
-    const deselectedtext = document.querySelector(".question-options-2 .green")
-    // console.log (deselectedtext);
+    const deselectedtext = document.querySelector(".question_options .green")
+    console.log(deselectedtext);
     if (deselectedtext !== null) {
         deselectedtext.classList.remove("green");
     }
-    const selectedtext = document.querySelector(".question-options-2 ." + text)
-    // console.log (selectedtext);
+    const selectedtext = document.querySelector(".question_options ." + text)
+    console.log(selectedtext);
     selectedtext.classList.add("green");
+
     for (let i = 1; i < 5; i++) {
-    const deselectImage = document.querySelector(".question-options-2 .image" + i)
-    console.log(deselectImage);
-    deselectImage.classList.add("opacity");
+        const deselectImage = document.querySelector(".question_options .image" + i)
+        console.log(deselectImage);
+        deselectImage.classList.add("opacity");
     }
-        const selectImage = document.querySelector(".question-options-2 ." + image)
-        console.log(selectImage);
-        selectImage.classList.remove("opacity");
+    const selectImage = document.querySelector(".question_options ." + image)
+    console.log(selectImage);
+    selectImage.classList.remove("opacity");
 }
 
+// function showQuiz () {
+//     const promise = axios.get(QUIZ_API)
+//     promise.then(quizDisplay);
+// }
 
 //FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
 function stepTwo() {

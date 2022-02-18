@@ -742,6 +742,8 @@ function calculateScore(selectedAnswer) {
   // arredondar pra cima o score
   if (index === questionqntd) {
       console.log ("pronto pra ler o score")
+        score = Math.ceil(score);
+        console.log (score);
         readScore(score);
     }
     else {
@@ -752,20 +754,58 @@ function calculateScore(selectedAnswer) {
 function readScore(score) {
     let questionLevels = [];
     let i = 0;
+    let endQuiz = "showQuiz";
     while (i < levelsqntd){
         questionLevels[i] = object[i].minValue;
-        i ++;
-        if (score <= questionLevels[i]) {
-            console.log ("encerrar quiz");
+        console.log (questionLevels);
+        if (score === 0) {
+            console.log ("zerou o quiz");
+            showQuizResults(0)
             i = levelsqntd;
+            endQuiz = "";
+        }
+       else if (score <= questionLevels[i]) {
+            console.log ("encerrar quiz");
+            showQuizResults(i-1)
+            i = levelsqntd;
+            endQuiz = "";
         }
         else {
             console.log ("seu score é maior que isso");
             i ++;
         }
     }
-    console.log (questionLevels);
-    console.log (score);
-    
+    if (endQuiz === "showQuiz") {
+        console.log ("deitou");
+        i = levelsqntd-1;
+        showQuizResults(i)
+    }
+   //  console.log (questionLevels);
+    // console.log (score);
+ }
 
-}
+ function showQuizResults(quizIndex) {
+     const quizEnd = object[quizIndex];
+     console.log (quizEnd);
+     quizPage.innerHTML += `
+        <div class="end_container">
+            <div class="quiz_questions">
+                <div class="question_text">
+                    <p> ${score}% de acerto: ${quizEnd.title} </p>
+                </div>
+            </div>
+            <div class="quiz_title">
+                <img src=${quizEnd.image}>
+            </div>
+            <div class="end_message">
+                <p>${quizEnd.text}</p>
+            </div>
+        </div>
+        <div>
+            <p> Botão reiniciar Quizz</p>
+        </div>
+        <div>
+            <p> Voltar pra Home</p>
+        </div>
+    `
+ }

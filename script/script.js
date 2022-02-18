@@ -21,7 +21,6 @@ function searchQuiz() {
 function quizDisplay(response) {
     console.log(response.data); //tirar depois
     const variavel = response.data;
-
     variavel.forEach(element => {
         allQuiz.innerHTML += `
         <li onclick="selectedQuiz(${element.id})" class="quiz" id="${element.id}">
@@ -30,6 +29,8 @@ function quizDisplay(response) {
         </li>
         `
     });
+
+   
 
     if (localStorage.length > 0) {
         let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
@@ -69,7 +70,8 @@ function completeMyQuiz(element){
 searchQuiz()
 
 function selectedQuiz(idDoQuiz) {
-    //   console.log(idDoQuiz);
+    QuizID = idDoQuiz;
+    console.log (QuizID);
     homePage.classList.add("hidden");
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
@@ -82,6 +84,7 @@ let score = 0;
 let questionqntd = 0;
 let levelsqntd = 0;
 let index = 0;
+let QuizID = "";
 
 function mostrarQuiz(APIData) {
    const data = APIData.data;
@@ -787,6 +790,7 @@ function readScore(score) {
  function showQuizResults(quizIndex) {
      const quizEnd = object[quizIndex];
      console.log (quizEnd);
+     console.log (QuizID);
      quizPage.innerHTML += `
         <div class="end_container">
             <div class="quiz_questions">
@@ -801,11 +805,7 @@ function readScore(score) {
                 <p>${quizEnd.text}</p>
             </div>
         </div>
-        <div>
-            <p> Botão reiniciar Quizz</p>
-        </div>
-        <div>
-            <p> Voltar pra Home</p>
-        </div>
+        <input onclick="selectedQuiz(${QuizID})" class="final-button" type="button" value="Reiniciar Quizz">
+        <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
     `
  }

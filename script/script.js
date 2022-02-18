@@ -69,15 +69,22 @@ function selectedQuiz(idDoQuiz) {
 
 function mostrarQuiz(APIData) {
     const data = APIData.data;
-    console.log(data)
+ //   console.log(data)
+    const level = data.levels[0];
+//    console.log(level.minValue);
+    let objectData = [];
+    objectData = [{valor: level.minValue, imagem: level.image, texto: level.text, titulo: level.title}];
+  //   console.log(objectData);
     const allQuestions = data.questions;
-    //console.log(allQuestions);
+  //  console.log(allQuestions);
     let questionTitle = allQuestions;
-    const questionqntd = questionTitle.length;    
-    let answer = "";
+    const questionqntd = questionTitle.length;
+    let answer = [];
     let answerqntd = "";
-    let answershuffle = [];
-    console.log (questionTitle[0].answers[0].isCorrectAnswer);
+    let object = [];
+    let array = [0,1,2,3,4];
+    let answerClicked = "";
+   // console.log (questionTitle[0].answers[0].isCorrectAnswer);
     quizPage.innerHTML += `
             <div class="quiz_title">
                 <img src=${data.image}>
@@ -86,9 +93,7 @@ function mostrarQuiz(APIData) {
         `
     for (let i = 0; i < questionqntd; i++) {
         answer = questionTitle[i].answers;
-        answershuffle = answer;
-        answershuffle.sort (comparador);
-        console.log (answershuffle);
+        answer.sort (comparador);
         answerqntd = answer.length;
         quizPage.innerHTML += `
             <div class="quiz_questions">
@@ -101,14 +106,19 @@ function mostrarQuiz(APIData) {
         `
     const lugarcerto = document.querySelector(".o"+i);
         // console.log (lugarcerto);
-        
-        for (let j = 0; j < answerqntd; j++) {
-            let answerStatus = answershuffle[j].isCorrectAnswer;
-           // console.log (answerStatus);
+  
+        for (let j = 0; j < answerqntd; j++) { 
+        answerClicked = answer[j].isCorrectAnswer;
+        let resposta = "incorreta";
+        if (answerClicked === true) {
+            resposta = "correta";
+        }
+        //    object = [{vetor: array, id: "o"+i, imagem: "image"+j, texto: "text"+j, respostas:answerqntd, respostaClicada: answerClicked}];
+            //  console.log (object);
+            //    console.log("espaço");
             lugarcerto.innerHTML += `
-                <div onclick="selecionarQuestão('${answerStatus}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j}">
-                    <img src=${answer[j].image}>
-                    <p class="text${j}">${answer[j].text}</p>
+            <div onclick="selecionarQuestão('${answerClicked}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j} ${resposta}"><img src=${answer[j].image}>
+                    <p class="text${j} text">${answer[j].text}</p>
                 </div>
             `
         }
@@ -192,7 +202,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
                 <input class="create-input" type="text" placeholder="Resposta correta">
                 <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem" required>
         </div>
-        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="" required> 
+        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="" required>
     </li>
     `
         // CRIANDO O LAYOUT DE INPUT DOS LEVELS
@@ -207,7 +217,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
                 <input class="create-input level-hits" type="number" min="0" max="100" placeholder="% de acerto mínima" required>
                 <input class="create-input level-url" type="url" pattern="https://.*"
                 placeholder="URL da imagem do nível" required>
-                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível" required></textarea> 
+                <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível" required></textarea>
         </div>
         <img onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
         </li>
@@ -399,7 +409,7 @@ function stepThree() {
 }
 
 
-// 
+//
 function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");
@@ -680,26 +690,37 @@ function comparador () {
     return Math.random() - 0.5;
 }
 
-function selecionarQuestão(answer,id,image,text,quantity) {
-  //  console.log (quantity);
-   
-
-   const selectedtext = document.querySelector("." + id + " ." + text);
-   console.log(selectedtext);
-    if (answer === "true") {
-        selectedtext.classList.add("correct");
-    }
-    else {
-        selectedtext.classList.add("wrong")
-    }
-
+//function selecionarQuestão(objeto) {
+ function selecionarQuestão(answer,id,image,text,quantity) {
+//   console.log (objeto);
+//    const selectedtext = document.querySelector("." + id + " ." + text);
+   // console.log(selectedtext);
+    // if (answer === "true") {
+    //     selectedtext.classList.add("correct");
+    // }
+    // else {
+    //     selectedtext.classList.add("wrong")
+    // }
     
+
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
-        console.log(deselectImage);
         deselectImage.classList.add("opacity");
+         const selectedText = document.querySelector("." + id + " .text" + i);
+         selectedText.classList.add("wrong");
     }
     const selectImage = document.querySelector("." + id + " ." + image)
-    console.log(selectImage);
     selectImage.classList.remove("opacity");
+    const selectCorrect = document.querySelector("." + id + " .correta")
+    console.log(selectCorrect);
+    const aux = selectCorrect.querySelector(".text");
+    console.log(aux);
+    aux.classList.remove("wrong");
+    aux.classList.add("correct");
+
+    // calculateScore()
+}
+
+function calculateScore() {
+
 }

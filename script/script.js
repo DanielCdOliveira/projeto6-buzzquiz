@@ -38,23 +38,33 @@ function quizDisplay(response) {
         for (let i = 0; i < localStorage.length; i++) {
 
             let key = localStorage.key(i);
-            let quizStorage = JSON.parse(localStorage.getItem(key));
+            
 
+            const promise = axios.get(`${QUIZ_API}/${key}`)
+            promise.then(completeMyQuiz)
+            
 
-
-
-            myQuiz.innerHTML += `
-            <li onclick="showSelectedQuiz(${quizStorage.id})" class="quiz" id="${quizStorage.id}">
-                <img src="${quizStorage.image}" alt="">
-                <h3>${quizStorage.title}</h3>
-            </li>
-            `
+            
         }
     } else {
         let noQuiz = document.querySelector(".no-quiz")
         noQuiz.classList.remove("hidden")
     }
 }
+
+// gera os quiz criados pelo usuario
+function completeMyQuiz(element){
+    let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
+    myQuiz.innerHTML += `
+    <li onclick="showSelectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
+        <img src="${element.data.image}" alt="">
+        <h3>${element.data.title}</h3>
+    </li>
+    `
+}
+
+
+
 
 searchQuiz()
 
@@ -64,7 +74,7 @@ function selectedQuiz(idDoQuiz) {
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
     // promise.then(showTitleQuiz);
-     promise.then(mostrarQuiz);
+    promise.then(mostrarQuiz);
 }
 
 function mostrarQuiz(APIData) {
@@ -73,11 +83,11 @@ function mostrarQuiz(APIData) {
     const allQuestions = data.questions;
     //console.log(allQuestions);
     let questionTitle = allQuestions;
-    const questionqntd = questionTitle.length;    
+    const questionqntd = questionTitle.length;
     let answer = "";
     let answerqntd = "";
     let answershuffle = [];
-    console.log (questionTitle[0].answers[0].isCorrectAnswer);
+    console.log(questionTitle[0].answers[0].isCorrectAnswer);
     quizPage.innerHTML += `
             <div class="quiz_title">
                 <img src=${data.image}>
@@ -87,8 +97,8 @@ function mostrarQuiz(APIData) {
     for (let i = 0; i < questionqntd; i++) {
         answer = questionTitle[i].answers;
         answershuffle = answer;
-        answershuffle.sort (comparador);
-        console.log (answershuffle);
+        answershuffle.sort(comparador);
+        console.log(answershuffle);
         answerqntd = answer.length;
         quizPage.innerHTML += `
             <div class="quiz_questions">
@@ -99,12 +109,12 @@ function mostrarQuiz(APIData) {
                 </div>
             </div>
         `
-    const lugarcerto = document.querySelector(".o"+i);
+        const lugarcerto = document.querySelector(".o" + i);
         // console.log (lugarcerto);
-        
+
         for (let j = 0; j < answerqntd; j++) {
             let answerStatus = answershuffle[j].isCorrectAnswer;
-           // console.log (answerStatus);
+            // console.log (answerStatus);
             lugarcerto.innerHTML += `
                 <div onclick="selecionarQuestão('${answerStatus}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j}">
                     <img src=${answer[j].image}>
@@ -386,12 +396,7 @@ function stepThree() {
         promise.then(send)
         promise.catch(notSend)
 
-        // altera o layout da pagina 4
-        let finalImage = pageFour.querySelector(".div-img")
-        finalImage.innerHTML = `
-        <img class="final-image" src="${quizInCreation.image}" alt="">
-        <h3>${quizInCreation.title}</h3>
-    `
+
     } else {
         alert("Pelo menos um dos valores da porcentagem deve ser ZERO")
     }
@@ -403,10 +408,19 @@ function stepThree() {
 function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");
-
     const newQuizID = response.data.id;
-
     localStorage.setItem(newQuizID, newQuizID);
+
+    // altera o layout da pagina 4
+    pageFour.innerHTML = `
+    <h2>Seu quizz está pronto!</h2>
+        <div class="div-img">
+            <img class="final-image" src="${quizInCreation.image}" alt="">
+            <h3>${quizInCreation.title}</h3>
+        </div>
+        <input onclick="selectedQuiz(${newQuizID})" class="final-button" type="button" value="Acessar Quizz">
+        <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
+    `
 }
 
 function notSend(response) {
@@ -676,24 +690,23 @@ function goToHomePage() {
 
 
 
-function comparador () {
+function comparador() {
     return Math.random() - 0.5;
 }
 
-function selecionarQuestão(answer,id,image,text,quantity) {
-  //  console.log (quantity);
-   
+function selecionarQuestão(answer, id, image, text, quantity) {
+    //  console.log (quantity);
 
-   const selectedtext = document.querySelector("." + id + " ." + text);
-   console.log(selectedtext);
+
+    const selectedtext = document.querySelector("." + id + " ." + text);
+    console.log(selectedtext);
     if (answer === "true") {
         selectedtext.classList.add("correct");
-    }
-    else {
+    } else {
         selectedtext.classList.add("wrong")
     }
 
-    
+
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
         console.log(deselectImage);

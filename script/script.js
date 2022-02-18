@@ -56,7 +56,7 @@ function quizDisplay(response) {
 function completeMyQuiz(element){
     let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
     myQuiz.innerHTML += `
-    <li onclick="showSelectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
+    <li onclick="selectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
         <img src="${element.data.image}" alt="">
         <h3>${element.data.title}</h3>
     </li>

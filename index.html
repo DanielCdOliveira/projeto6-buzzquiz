@@ -21,107 +21,105 @@
         <h1>BuzzQuizz</h1>
     </header>
 
-    <main>
 
-        <!-- TELA INICIAL -->
-        <section class="home-page">
+    <!-- TELA INICIAL -->
+    <section class="home-page">
 
-            <!-- MEUS QUIZ -->
-            <div class="my-quiz">
-                <!-- SE NAO TIVER CRIADO NENHUM quiz -->
-                <div class="no-quiz hidden">
-                    <p>Você não criou nenhum quiz ainda :(</p>
-                    <span onclick="createQuiz()">Criar Quiz</span>
-                </div>
-                <!-- ALGUM quiz JA FOI CRIADO -->
-                <div class="exist-quiz hidden">
-                    <div class="my-quiz-title">
-                        <h2>Seus Quizzes</h2>
-                        <ion-icon onclick="createQuiz()" name="add-circle"></ion-icon>
-                    </div>
-                    <ul class="quiz-container"></ul>
-                </div>
+        <!-- MEUS QUIZ -->
+        <div class="my-quiz">
+            <!-- SE NAO TIVER CRIADO NENHUM quiz -->
+            <div class="no-quiz hidden">
+                <p>Você não criou nenhum quiz ainda :(</p>
+                <span onclick="createQuiz()">Criar Quiz</span>
             </div>
-            <!-- QUIZ DO SERVIDOR -->
-            <div class="all-quiz">
-                <h2>Todos os Quizzes</h2>
+            <!-- ALGUM quiz JA FOI CRIADO -->
+            <div class="exist-quiz hidden">
+                <div class="my-quiz-title">
+                    <h2>Seus Quizzes</h2>
+                    <ion-icon onclick="createQuiz()" name="add-circle"></ion-icon>
+                </div>
                 <ul class="quiz-container"></ul>
             </div>
+        </div>
+        <!-- QUIZ DO SERVIDOR -->
+        <div class="all-quiz">
+            <h2>Todos os Quizzes</h2>
+            <ul class="quiz-container"></ul>
+        </div>
 
-        </section>
+    </section>
 
 
 
-
-        <!-- TELA DE EXIBIÇÃO DE QUIZ -->
-        <section class="quiz-page hidden">
-            <!-- <img class="quiz-head" src="./assets/test.jpg"> -->
-            <div class="quiz_title">
-                <p> Título do quiz</p>
+    <!-- TELA DE EXIBIÇÃO DE QUIZ -->
+    <section class="quiz-page hidden">
+        <!-- <img class="quiz-head" src="./assets/test.jpg"> -->
+        <div class="quiz_title">
+            <p> Título do quiz</p>
+        </div>
+        <div class="quiz_questions">
+            <div class="question_text">
+                <p> Título da pergunta </p>
             </div>
-            <div class="quiz_questions">
-                <div class="question_text">
-                    <p> Título da pergunta </p>
-                </div>
-                <div class="question_options_1">
-                    <div class="question_section">
-                        <div class="question_section_container image_left">
-                            <img src="./assets/test.jpg">
-                            <p>Texto da pergunta</p>
-                        </div>
-                        <div class="question_section_container image_right">
-                            <img src="./assets/test.jpg">
-                            <p>Texto da pergunta</p>
-                        </div>
+            <div class="question_options_1">
+                <div class="question_section">
+                    <div class="question_section_container image_left">
+                        <img src="./assets/test.jpg">
+                        <p>Texto da pergunta</p>
                     </div>
-                    <div class="question_section">
-                        <div class="question_section_container image_left">
-                            <img src="./assets/test.jpg">
-                            <p>Texto da pergunta</p>
-                        </div>
-                        <div class="question_section_container image_right">
-                            <img src="./assets/test.jpg">
-                            <p>Texto da pergunta</p>
-                        </div>
+                    <div class="question_section_container image_right">
+                        <img src="./assets/test.jpg">
+                        <p>Texto da pergunta</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="quiz_questions">
-                <div class="question_text">
-                    <p> Título da pergunta </p>
-                </div>
-                <div class="question_options_2">
-                    <div class="question_section">
-                        <div onclick="questionSelected('image1','text1')"
-                            class="image1 question_section_container image_left">
-                            <img src="./assets/test.jpg">
-                            <p class="text1">Texto da pergunta</p>
-                        </div>
-                        <div onclick="questionSelected('image2','text2')"
-                            class="image2 question_section_container image_right">
-                            <img src="./assets/test.jpg">
-                            <p class="text2">Texto da pergunta</p>
-                        </div>
+                <div class="question_section">
+                    <div class="question_section_container image_left">
+                        <img src="./assets/test.jpg">
+                        <p>Texto da pergunta</p>
                     </div>
-                    <div class="question_section">
-                        <div onclick="questionSelected('image3','text3')"
-                            class="image3 question_section_container image_left">
-                            <img src="./assets/test.jpg">
-                            <p class="text3">Texto da pergunta</p>
-                        </div>
-                        <div onclick="questionSelected('image4','text4')"
-                            class="image4 question_section_container image_right">
-                            <img src="./assets/test.jpg">
-                            <p class="text4">Texto da pergunta</p>
-                        </div>
+                    <div class="question_section_container image_right">
+                        <img src="./assets/test.jpg">
+                        <p>Texto da pergunta</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <div class="quiz_questions">
+            <div class="question_text">
+                <p> Título da pergunta </p>
+            </div>
+            <div class="question_options_2">
+                <div class="question_section">
+                    <div onclick="questionSelected('image1','text1')"
+                        class="image1 question_section_container image_left">
+                        <img src="./assets/test.jpg">
+                        <p class="text1">Texto da pergunta</p>
+                    </div>
+                    <div onclick="questionSelected('image2','text2')"
+                        class="image2 question_section_container image_right">
+                        <img src="./assets/test.jpg">
+                        <p class="text2">Texto da pergunta</p>
+                    </div>
+                </div>
+                <div class="question_section">
+                    <div onclick="questionSelected('image3','text3')"
+                        class="image3 question_section_container image_left">
+                        <img src="./assets/test.jpg">
+                        <p class="text3">Texto da pergunta</p>
+                    </div>
+                    <div onclick="questionSelected('image4','text4')"
+                        class="image4 question_section_container image_right">
+                        <img src="./assets/test.jpg">
+                        <p class="text4">Texto da pergunta</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-    </main>
+
     <!-- TELA DE CRIAR QUIZ -->
     <section class="create-quiz hidden">
 

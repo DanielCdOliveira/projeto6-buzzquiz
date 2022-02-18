@@ -108,6 +108,7 @@ function stepOne() {
     }
 }
 
+
 // FUNÇAO QUE GERA O LAYOUT DA PAGINA 2 E 3 DE CRIAÇAO
 function createQuestionsLevels(title, url, nQuestions, nLevels) {
     quizInCreation = {
@@ -117,7 +118,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         levels: levelsArray
     }
     // CRIANDO LAYOUT DE INPUTS DAS QUESTIONS
-    // lembrar de excluir////////////////////////////////////////////////////
+
 
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
@@ -188,12 +189,12 @@ function stepTwo() {
 
     for (let i = 0; i < quizNumQuestions.value; i++) {
 
-        
+
         // array com as respostas do usuario
         answerArray = []
 
         // Pattern para verificar hexadecimal
-        let pattern = /^#([0-9a-f]{3}){1,2}$/i;
+        let pattern = /^#([0-9a-f]{6})$/i;
 
         // li da pergunta
         let question = document.querySelector(`#q${i}`);
@@ -223,11 +224,11 @@ function stepTwo() {
                     }
                     j++;
                 }
-                
+
             }
         }
-       
-        if ( incorrectAnswers > 0) {
+
+        if (incorrectAnswers > 0) {
 
             answerArray.push({
                 text: correctAnswer.value,
@@ -246,32 +247,38 @@ function stepTwo() {
                         image: wrongUrl,
                         isCorrectAnswer: false
                     })
-                    let arrayContent = {
-                        title: questionText.value,
-                        color: questionColor.value,
-                        answers: answerArray
-                    }
 
-                    questionsArray.push(arrayContent)
-                    
+
+
                 }
                 i++;
-                
+
             }
             questionsComplete++;
+
+            let arrayContent = {
+                title: questionText.value,
+                color: questionColor.value,
+                answers: answerArray
+            }
+
+            questionsArray.push(arrayContent);
         } else {
             alert(`Preencha todos os campos da pergunta ${i+1} (pelo menos uma resposta errada)`);
         }
+
+
     }
 
 
-
-    if(questionsComplete === quizNumQuestions){
+    console.log(questionsComplete)
+    if (questionsComplete == quizNumQuestions.value) {
         pageTwo.classList.add("hidden");
         pageThree.classList.remove("hidden");
+        quizInCreation.questions = questionsArray
+        console.log(quizInCreation)
     }
 }
-
 
 
 
@@ -279,59 +286,70 @@ function stepTwo() {
 // FUNÇAO DO BOTAO DA TERCEIRA TELA DE CRIAÇAO
 function stepThree() {
 
+    // verificar se tem alguma porcentagem = 0
+    let minZero = false
+    // zerar o array caso de problema no preenchimento
+    levelsArray = []
 
-    console.log(quizNumLevels)
-    for (let i = 0; i < quizNumLevels; i++) {
 
+    for (let i = 0; i < quizNumLevels.value; i++) {
+        // obejeto que ficara as resposta do usuario
         let answerObject = {};
-
+        // li do level em questao
         let level = document.querySelector(`#l${i}`);
-        console.log(level);
+        // titulo do level
+        let levelTitle = level.querySelector(".level-title:valid");
+        // porcentagem do level
+        let levelHits = level.querySelector(".level-hits:valid");
+        // url da imagem do level
+        let levelUrl = level.querySelector(".level-url:valid");
+        // descriçao do level
+        let levelDescription = level.querySelector(".level-description:valid");
 
-        let levelTitle = level.querySelector(".level-title").value;
-        console.log(levelTitle);
+        // verfica se os campos estao preenchidos
+        if (levelTitle != null && levelHits != null && levelUrl != null && levelDescription != null) {
+            console.log("entra aqui");
+            answerObject = {
+                title: levelTitle.value,
+                image: levelUrl.value,
+                text: levelDescription.value,
+                minValue: parseInt(levelHits.value)
+            }
+            if (parseInt(levelHits.value) == 0) {
+                minZero = true
+            }
+            levelsArray.push(answerObject)
 
-        let levelHits = parseInt(level.querySelector(".level-hits").value);
-        console.log(levelHits);
-
-        let levelUrl = level.querySelector(".level-url").value;
-        console.log(levelUrl);
-
-        let levelDescription = level.querySelector(".level-description").value;
-        console.log(levelDescription);
-
-
-
-        answerObject = {
-            title: levelTitle,
-            image: levelUrl,
-            text: levelDescription,
-            minValue: levelHits
+        } else {
+            alert(`Preencha todos os campos do level ${i+1}`)
         }
 
 
-
-        levelsArray.push(answerObject)
     }
+    console.log(quizInCreation)
+    quizInCreation.levels = levelsArray
+    console.log(quizInCreation)
 
+    if (minZero) {
+        //   tudo deu certo envia pro servidor
+        const promise = axios.post(QUIZ_API, quizInCreation)
+        promise.then(send)
+        promise.catch(notSend)
 
-
-    console.log(levelsArray)
-
-    console.log(quizInCreation);
-    const promise = axios.post(QUIZ_API, quizInCreation)
-    promise.then(send)
-    promise.catch(notSend)
-
-
-    let finalImage = pageFour.querySelector(".div-img")
-    finalImage.innerHTML = `
-    <img class="final-image" src="${quizInCreation.image}" alt="">
-    <h3>${quizInCreation.title}</h3>
+        // altera o layout da pagina 4
+        let finalImage = pageFour.querySelector(".div-img")
+        finalImage.innerHTML = `
+        <img class="final-image" src="${quizInCreation.image}" alt="">
+        <h3>${quizInCreation.title}</h3>
     `
+    } else {
+        alert("Pelo menos um dos valores da porcentagem deve ser ZERO")
+    }
 
 }
 
+
+// 
 function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");

@@ -38,23 +38,33 @@ function quizDisplay(response) {
         for (let i = 0; i < localStorage.length; i++) {
 
             let key = localStorage.key(i);
-            let quizStorage = JSON.parse(localStorage.getItem(key));
+            
 
+            const promise = axios.get(`${QUIZ_API}/${key}`)
+            promise.then(completeMyQuiz)
+            
 
-
-
-            myQuiz.innerHTML += `
-            <li onclick="showSelectedQuiz(${quizStorage.id})" class="quiz" id="${quizStorage.id}">
-                <img src="${quizStorage.image}" alt="">
-                <h3>${quizStorage.title}</h3>
-            </li>
-            `
+            
         }
     } else {
         let noQuiz = document.querySelector(".no-quiz")
         noQuiz.classList.remove("hidden")
     }
 }
+
+// gera os quiz criados pelo usuario
+function completeMyQuiz(element){
+    let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
+    myQuiz.innerHTML += `
+    <li onclick="selectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
+        <img src="${element.data.image}" alt="">
+        <h3>${element.data.title}</h3>
+    </li>
+    `
+}
+
+
+
 
 searchQuiz()
 
@@ -64,7 +74,7 @@ function selectedQuiz(idDoQuiz) {
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
     // promise.then(showTitleQuiz);
-     promise.then(mostrarQuiz);
+    promise.then(mostrarQuiz);
 }
 
 let object = [];
@@ -111,7 +121,7 @@ function mostrarQuiz(APIData) {
                 </div>
             </div>
         `
-    const lugarcerto = document.querySelector(".o"+i);
+        const lugarcerto = document.querySelector(".o" + i);
         // console.log (lugarcerto);
   
         for (let j = 0; j < answerqntd; j++) { 
@@ -403,12 +413,7 @@ function stepThree() {
         promise.then(send)
         promise.catch(notSend)
 
-        // altera o layout da pagina 4
-        let finalImage = pageFour.querySelector(".div-img")
-        finalImage.innerHTML = `
-        <img class="final-image" src="${quizInCreation.image}" alt="">
-        <h3>${quizInCreation.title}</h3>
-    `
+
     } else {
         alert("Pelo menos um dos valores da porcentagem deve ser ZERO")
     }
@@ -420,10 +425,19 @@ function stepThree() {
 function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");
-
     const newQuizID = response.data.id;
-
     localStorage.setItem(newQuizID, newQuizID);
+
+    // altera o layout da pagina 4
+    pageFour.innerHTML = `
+    <h2>Seu quizz está pronto!</h2>
+        <div class="div-img">
+            <img class="final-image" src="${quizInCreation.image}" alt="">
+            <h3>${quizInCreation.title}</h3>
+        </div>
+        <input onclick="selectedQuiz(${newQuizID})" class="final-button" type="button" value="Acessar Quizz">
+        <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
+    `
 }
 
 function notSend(response) {
@@ -693,7 +707,7 @@ function goToHomePage() {
 
 
 
-function comparador () {
+function comparador() {
     return Math.random() - 0.5;
 }
 

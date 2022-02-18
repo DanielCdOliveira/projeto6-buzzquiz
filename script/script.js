@@ -354,11 +354,9 @@ function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");
 
-
-    const newQuizString = JSON.stringify(response.data);
     const newQuizID = response.data.id;
 
-    localStorage.setItem(newQuizID, newQuizString);
+    localStorage.setItem(newQuizID, newQuizID);
 }
 
 function notSend(response) {

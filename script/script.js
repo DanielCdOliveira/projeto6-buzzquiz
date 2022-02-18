@@ -76,7 +76,8 @@ function mostrarQuiz(APIData) {
     const questionqntd = questionTitle.length;    
     let answer = "";
     let answerqntd = "";
-    
+    let answershuffle = [];
+    console.log (questionTitle[0].answers[0].isCorrectAnswer);
     quizPage.innerHTML += `
             <div class="quiz_title">
                 <img src=${data.image}>
@@ -85,9 +86,12 @@ function mostrarQuiz(APIData) {
         `
     for (let i = 0; i < questionqntd; i++) {
         answer = questionTitle[i].answers;
+        answershuffle = answer;
+        answershuffle.sort (comparador);
+        console.log (answershuffle);
         answerqntd = answer.length;
         quizPage.innerHTML += `
-            <div class="quiz_questions q${i}">
+            <div class="quiz_questions">
                 <div class="question_text">
                     <p> ${questionTitle[i].title} </p>
                 </div>
@@ -99,8 +103,10 @@ function mostrarQuiz(APIData) {
         // console.log (lugarcerto);
         
         for (let j = 0; j < answerqntd; j++) {
+            let answerStatus = answershuffle[j].isCorrectAnswer;
+           // console.log (answerStatus);
             lugarcerto.innerHTML += `
-                <div onclick="selecionarQuestão('image${j}','text${j}')" class="question_section_container image${j}">
+                <div onclick="selecionarQuestão('${answerStatus}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j}">
                     <img src=${answer[j].image}>
                     <p class="text${j}">${answer[j].text}</p>
                 </div>
@@ -670,23 +676,30 @@ function goToHomePage() {
 
 
 
-function selecionarQuestão(image, text) {
-    // Habilita o texto em verde 
-    const deselectedtext = document.querySelector(".question_options .green")
-    console.log(deselectedtext);
-    if (deselectedtext !== null) {
-        deselectedtext.classList.remove("green");
-    }
-    const selectedtext = document.querySelector(".question_options ." + text)
-    console.log(selectedtext);
-    selectedtext.classList.add("green");
+function comparador () {
+    return Math.random() - 0.5;
+}
 
-    for (let i = 1; i < 5; i++) {
-        const deselectImage = document.querySelector(".question_options .image" + i)
+function selecionarQuestão(answer,id,image,text,quantity) {
+  //  console.log (quantity);
+   
+
+   const selectedtext = document.querySelector("." + id + " ." + text);
+   console.log(selectedtext);
+    if (answer === "true") {
+        selectedtext.classList.add("correct");
+    }
+    else {
+        selectedtext.classList.add("wrong")
+    }
+
+    
+    for (let i = 0; i < quantity; i++) {
+        const deselectImage = document.querySelector("." + id + " .image" + i)
         console.log(deselectImage);
         deselectImage.classList.add("opacity");
     }
-    const selectImage = document.querySelector(".question_options ." + image)
+    const selectImage = document.querySelector("." + id + " ." + image)
     console.log(selectImage);
     selectImage.classList.remove("opacity");
 }

@@ -3,6 +3,7 @@
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
+    scroll-behavior: smooth;
 }
 
 :root {
@@ -16,6 +17,7 @@ html {
 body {
     font-family: 'Roboto';
     font-weight: 400;
+   
 }
 
 /* CABEÇALHO */

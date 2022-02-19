@@ -30,7 +30,7 @@ function quizDisplay(response) {
         `
     });
 
-   
+
 
     if (localStorage.length > 0) {
         let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
@@ -39,13 +39,13 @@ function quizDisplay(response) {
         for (let i = 0; i < localStorage.length; i++) {
 
             let key = localStorage.key(i);
-            
+
 
             const promise = axios.get(`${QUIZ_API}/${key}`)
             promise.then(completeMyQuiz)
-            
 
-            
+
+
         }
     } else {
         let noQuiz = document.querySelector(".no-quiz")
@@ -54,7 +54,7 @@ function quizDisplay(response) {
 }
 
 // gera os quiz criados pelo usuario
-function completeMyQuiz(element){
+function completeMyQuiz(element) {
     let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
     myQuiz.innerHTML += `
     <li onclick="selectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
@@ -82,7 +82,7 @@ searchQuiz()
 
 function selectedQuiz(idDoQuiz) {
     QuizID = idDoQuiz;
-    console.log (QuizID);
+    console.log(QuizID);
     homePage.classList.add("hidden");
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
@@ -92,9 +92,9 @@ function selectedQuiz(idDoQuiz) {
 
 
 function mostrarQuizTopo(APIData) {
-   let data = APIData.data;
-     levelsqntd = data.levels.length;
-    for (let i = 0;  i < levelsqntd; i ++)  {
+    let data = APIData.data;
+    levelsqntd = data.levels.length;
+    for (let i = 0; i < levelsqntd; i++) {
         object[i] = data.levels[i];
     }
     allQuestions = data.questions;
@@ -109,13 +109,13 @@ function mostrarQuizTopo(APIData) {
                 <p>${data.title} do quiz</p>
             </div>
         `
-    mostrarQuizQuestões ()
+    mostrarQuizQuestões()
 }
 
-function mostrarQuizQuestões () {
+function mostrarQuizQuestões() {
     for (let i = 0; i < questionqntd; i++) {
         answer = questionTitle[i].answers;
-        answer.sort (comparador);
+        answer.sort(comparador);
         answerqntd = answer.length;
         quizPage.innerHTML += `
             <div class="quiz_questions">
@@ -128,13 +128,13 @@ function mostrarQuizQuestões () {
         `
         const lugarcerto = document.querySelector(".o" + i);
         // console.log (lugarcerto);
-  
-        for (let j = 0; j < answerqntd; j++) { 
-        answerClicked = answer[j].isCorrectAnswer;
-        let resposta = "incorreta";
-        if (answerClicked === true) {
-            resposta = "correta";
-        }
+
+        for (let j = 0; j < answerqntd; j++) {
+            answerClicked = answer[j].isCorrectAnswer;
+            let resposta = "incorreta";
+            if (answerClicked === true) {
+                resposta = "correta";
+            }
             lugarcerto.innerHTML += `
             <div onclick="selecionarQuestão('${answerClicked}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j} ${resposta}"><img src=${answer[j].image}>
                     <p class="text${j} text">${answer[j].text}</p>
@@ -203,7 +203,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
         pageTwo.querySelector("ul").innerHTML += `
         <li class="question hide" id="q${i}">
             <div>
-                <h2>Pergunta ${i+1}</h2>
+                <h2>Pergunta ${i + 1}</h2>
                 <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta" required>
                 <input class="create-input question-color" type="text" maxlength="7" placeholder="Cor de fundo da pergunta" required>
              </div>
@@ -343,7 +343,7 @@ function stepTwo() {
 
             questionsArray.push(arrayContent);
         } else {
-            alert(`Preencha todos os campos da pergunta ${i+1} (pelo menos uma resposta errada)`);
+            alert(`Preencha todos os campos da pergunta ${i + 1} (pelo menos uma resposta errada)`);
         }
 
 
@@ -400,7 +400,7 @@ function stepThree() {
             levelsArray.push(answerObject)
 
         } else {
-            alert(`Preencha todos os campos do level ${i+1}`)
+            alert(`Preencha todos os campos do level ${i + 1}`)
         }
 
 
@@ -713,13 +713,13 @@ function comparador() {
     return Math.random() - 0.5;
 }
 
- function selecionarQuestão(answer,id,image,text,quantity) {
+function selecionarQuestão(answer, id, image, text, quantity) {
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
         deselectImage.classList.add("opacity");
         deselectImage.classList.add("disable");
-         const selectedText = document.querySelector("." + id + " .text" + i);
-         selectedText.classList.add("wrong");
+        const selectedText = document.querySelector("." + id + " .text" + i);
+        selectedText.classList.add("wrong");
     }
     const selectImage = document.querySelector("." + id + " ." + image)
     selectImage.classList.remove("opacity");
@@ -727,25 +727,25 @@ function comparador() {
     const aux = selectCorrect.querySelector(".text");
     aux.classList.remove("wrong");
     aux.classList.add("correct");
-  //  setTimeout(scrollQuestion,2000);
-     calculateScore(answer)
+    //  setTimeout(scrollQuestion,2000);
+    calculateScore(answer)
 }
 
 function calculateScore(selectedAnswer) {
-   
+
     if (selectedAnswer === "true") {
-        score += 100/questionqntd;
+        score += 100 / questionqntd;
     }
-    index ++;
-    console.log (index);
-    console.log (score);
-  if (index === questionqntd) {
-      console.log ("pronto pra ler o score")
+    index++;
+    console.log(index);
+    console.log(score);
+    if (index === questionqntd) {
+        console.log("pronto pra ler o score")
         score = Math.ceil(score);
         readScore(score);
     }
     else {
-        console.log ("não está pronto pra ler o score")
+        console.log("não está pronto pra ler o score")
     }
 }
 
@@ -753,41 +753,41 @@ function readScore(score) {
     let questionLevels = [];
     let i = 0;
     let endQuiz = "showQuiz";
-    while (i < levelsqntd){
+    while (i < levelsqntd) {
         questionLevels[i] = object[i].minValue;
-        console.log (questionLevels);
+        console.log(questionLevels);
         if (score === 0) {
-            console.log ("zerou o quiz");
+            console.log("zerou o quiz");
             showQuizResults(0);
-            setTimeout(scrollarTela,2000);
+            setTimeout(scrollarTela, 2000);
             i = levelsqntd;
             endQuiz = "";
         }
-       else if (score <= questionLevels[i]) {
-            console.log ("encerrar quiz");
-            showQuizResults(i-1);
-            setTimeout(scrollarTela,2000);
+        else if (score <= questionLevels[i]) {
+            console.log("encerrar quiz");
+            showQuizResults(i - 1);
+            setTimeout(scrollarTela, 2000);
             i = levelsqntd;
             endQuiz = "";
         }
         else {
-            console.log ("seu score é maior que isso");
-            i ++;
+            console.log("seu score é maior que isso");
+            i++;
         }
     }
     if (endQuiz === "showQuiz") {
-        console.log ("deitou");
-        i = levelsqntd-1;
+        console.log("deitou");
+        i = levelsqntd - 1;
         showQuizResults(i);
-        setTimeout(scrollarTela,2000);
+        setTimeout(scrollarTela, 2000);
     }
- }
+}
 
- function showQuizResults(quizIndex) {
-     const quizEnd = object[quizIndex];
-     console.log (quizEnd);
-     console.log (QuizID);
-     quizPage.innerHTML += `
+function showQuizResults(quizIndex) {
+    const quizEnd = object[quizIndex];
+    console.log(quizEnd);
+    console.log(QuizID);
+    quizPage.innerHTML += `
         <div class="quiz_results">
             <div class="result_title">
                 <p> ${score}% de acerto: ${quizEnd.title} </p>
@@ -798,38 +798,43 @@ function readScore(score) {
         <input onclick="restartQuiz(${QuizID})" class="final-button" type="button" value="Reiniciar Quizz">
         <input onclick="goToHomePage()" class="home-button final-margin" type="button" value="Voltar pra home">
     `
- }
+}
 
 // Scrollar para a próxima questão 
 
- function scrollQuestion () {
+function scrollQuestion() {
     const ul = document.querySelector(".question_section_container");
     console.log(ul);
     const lastScreen = ul.lastElementChild;
-    console.log (lastScreen);
+    console.log(lastScreen);
     lastScreen.scrollIntoView();
 }
 
 // Scrollar quando finaliza o quiz
 
- function scrollarTela () {
-     const ul = quizPage;
-     const lastScreen = ul.lastElementChild;
-     lastScreen.scrollIntoView();
- }
+function scrollarTela() {
+    const ul = quizPage;
+    const lastScreen = ul.lastElementChild;
+    lastScreen.scrollIntoView();
+}
 
- function restartQuiz(id) {
-     console.log ("chamou a função");
-     quizPage.innerHTML = "";
-     resetVariables();
-     selectedQuiz(id);
- }
+function restartQuiz(id) {
+    console.log("chamou a função");
+    quizPage.innerHTML = "";
+    resetVariables();
+    selectedQuiz(id);
+}
 
- function resetVariables () {
+function resetVariables() {
     object = [];
     score = 0;
     questionqntd = 0;
     levelsqntd = 0;
     index = 0;
     QuizID = "";
- }
+    allQuestions = "";
+    questionTitle = "";
+    answer = [];
+    answerqntd = "";
+    answerClicked = "";
+}

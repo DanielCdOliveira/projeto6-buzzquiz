@@ -9,6 +9,10 @@
     --red-color: #ec362d;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Roboto';
     font-weight: 400;
@@ -29,7 +33,7 @@ header {
 
 /* TEXTOS */
 h1 {
-    
+
     font-family: 'Roboto', sans-serif;
     font-size: 37px;
     font-weight: 700;
@@ -422,7 +426,58 @@ h3 {
     background-color: #FAFAFA;
 }
 
+/* /////////////// BONUS ///////////////// */
 
+/* LOADING */
+.loading {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 69px;
+    padding-top: 200px;
+    background-color: #FAFAFA;
+    z-index: 10;
+
+}
+.loading img{
+    width: 100px;
+}
+
+.loading p {
+    font-size: 25px;
+    line-height: 29px;
+    color: var(--red-color);
+}
+
+/* REMOVER QUIZ */
+
+.remove{
+    width: 42px;
+    height: 42px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    background-color: var(--red-color);
+    border-radius: 10px 0px 0px 11px;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.remove ion-icon{
+    font-size: 22px;
+    color: white;
+   
+}
+
+
+
+/* ///////// MEDIA QUERY //////////// */
 @media (min-width: 755px) {
 
     .quiz-container {
@@ -712,7 +767,7 @@ h3 {
 
 .wrong {
     color: #FF0B0B;
-   
+
 }
 
 .question_options p {

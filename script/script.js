@@ -64,7 +64,13 @@ function completeMyQuiz(element){
     `
 }
 
-
+/* Variáveis Globais*/
+let object = [];
+let score = 0;
+let questionqntd = 0;
+let levelsqntd = 0;
+let index = 0;
+let QuizID = "";
 
 
 searchQuiz()
@@ -79,32 +85,19 @@ function selectedQuiz(idDoQuiz) {
     promise.then(mostrarQuiz);
 }
 
-let object = [];
-let score = 0;
-let questionqntd = 0;
-let levelsqntd = 0;
-let index = 0;
-let QuizID = "";
 
 function mostrarQuiz(APIData) {
    const data = APIData.data;
- //   console.log(data)
      levelsqntd = data.levels.length;
-  //  console.log (levelsqntd);
     for (let i = 0;  i < levelsqntd; i ++)  {
         object[i] = data.levels[i];
     }
-    // console.log(object);
     const allQuestions = data.questions;
-  //  console.log(allQuestions);
     let questionTitle = allQuestions;
     questionqntd = questionTitle.length;
     let answer = [];
     let answerqntd = "";
-  //  let object = [];
-    let array = [0,1,2,3,4];
     let answerClicked = "";
-   // console.log (questionTitle[0].answers[0].isCorrectAnswer);
     quizPage.innerHTML += `
             <div class="quiz_title">
                 <img src=${data.image}>
@@ -721,9 +714,7 @@ function comparador() {
     const selectImage = document.querySelector("." + id + " ." + image)
     selectImage.classList.remove("opacity");
     const selectCorrect = document.querySelector("." + id + " .correta")
- //   console.log(selectCorrect);
     const aux = selectCorrect.querySelector(".text");
- //   console.log(aux);
     aux.classList.remove("wrong");
     aux.classList.add("correct");
   //  setTimeout(scrollQuestion,2000);
@@ -732,18 +723,15 @@ function comparador() {
 
 function calculateScore(selectedAnswer) {
    
-  // console.log (questionqntd);
     if (selectedAnswer === "true") {
         score += 100/questionqntd;
     }
     index ++;
     console.log (index);
-  //  console.log (score);
-  // arredondar pra cima o score
+    console.log (score);
   if (index === questionqntd) {
       console.log ("pronto pra ler o score")
         score = Math.ceil(score);
-        console.log (score);
         readScore(score);
     }
     else {
@@ -783,8 +771,6 @@ function readScore(score) {
         showQuizResults(i);
         setTimeout(scrollarTela,2000);
     }
-   //  console.log (questionLevels);
-    // console.log (score);
  }
 
  function showQuizResults(quizIndex) {
@@ -805,7 +791,7 @@ function readScore(score) {
                 <p>${quizEnd.text}</p>
             </div>
         </div>
-        <input onclick="selectedQuiz(${QuizID})" class="final-button" type="button" value="Reiniciar Quizz">
+        <input onclick="restartQuiz(${QuizID})" class="final-button" type="button" value="Reiniciar Quizz">
         <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
     `
  }
@@ -826,4 +812,20 @@ function readScore(score) {
      const ul = quizPage;
      const lastScreen = ul.lastElementChild;
      lastScreen.scrollIntoView();
+ }
+
+ function restartQuiz(id) {
+     console.log ("chamou a função");
+     quizPage.innerHTML = "";
+     resetVariables();
+     selectedQuiz(id);
+ }
+
+ function resetVariables () {
+    object = [];
+    score = 0;
+    questionqntd = 0;
+    levelsqntd = 0;
+    index = 0;
+    QuizID = "";
  }

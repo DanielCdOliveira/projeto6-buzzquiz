@@ -64,13 +64,18 @@ function completeMyQuiz(element){
     `
 }
 
-/* Variáveis Globais*/
+/* Variáveis Globais para renderizar o quizzes*/
 let object = [];
 let score = 0;
 let questionqntd = 0;
 let levelsqntd = 0;
 let index = 0;
 let QuizID = "";
+let allQuestions = "";
+let questionTitle = "";
+let answer = [];
+let answerqntd = "";
+let answerClicked = "";
 
 
 searchQuiz()
@@ -82,28 +87,32 @@ function selectedQuiz(idDoQuiz) {
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
     // promise.then(showTitleQuiz);
-    promise.then(mostrarQuiz);
+    promise.then(mostrarQuizTopo);
 }
 
 
-function mostrarQuiz(APIData) {
-   const data = APIData.data;
+function mostrarQuizTopo(APIData) {
+   let data = APIData.data;
      levelsqntd = data.levels.length;
     for (let i = 0;  i < levelsqntd; i ++)  {
         object[i] = data.levels[i];
     }
-    const allQuestions = data.questions;
-    let questionTitle = allQuestions;
+    allQuestions = data.questions;
+    questionTitle = allQuestions;
     questionqntd = questionTitle.length;
-    let answer = [];
-    let answerqntd = "";
-    let answerClicked = "";
+    answer = [];
+    answerqntd = "";
+    answerClicked = "";
     quizPage.innerHTML += `
             <div class="quiz_title">
                 <img src=${data.image}>
                 <p>${data.title} do quiz</p>
             </div>
         `
+    mostrarQuizQuestões ()
+}
+
+function mostrarQuizQuestões () {
     for (let i = 0; i < questionqntd; i++) {
         answer = questionTitle[i].answers;
         answer.sort (comparador);
@@ -708,6 +717,7 @@ function comparador() {
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
         deselectImage.classList.add("opacity");
+        deselectImage.classList.add("disable");
          const selectedText = document.querySelector("." + id + " .text" + i);
          selectedText.classList.add("wrong");
     }
@@ -778,21 +788,15 @@ function readScore(score) {
      console.log (quizEnd);
      console.log (QuizID);
      quizPage.innerHTML += `
-        <div class="end_container">
-            <div class="quiz_questions">
-                <div class="question_text">
-                    <p> ${score}% de acerto: ${quizEnd.title} </p>
-                </div>
+        <div class="quiz_results">
+            <div class="result_title">
+                <p> ${score}% de acerto: ${quizEnd.title} </p>
             </div>
-            <div class="quiz_title">
-                <img src=${quizEnd.image}>
-            </div>
-            <div class="end_message">
-                <p>${quizEnd.text}</p>
-            </div>
+            <img class="result_image"src=${quizEnd.image}>
+            <p class="result_message">${quizEnd.text}</p>
         </div>
         <input onclick="restartQuiz(${QuizID})" class="final-button" type="button" value="Reiniciar Quizz">
-        <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
+        <input onclick="goToHomePage()" class="home-button final-margin" type="button" value="Voltar pra home">
     `
  }
 

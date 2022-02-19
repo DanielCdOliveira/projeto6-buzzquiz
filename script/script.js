@@ -133,9 +133,6 @@ function mostrarQuiz(APIData) {
         if (answerClicked === true) {
             resposta = "correta";
         }
-        //    object = [{vetor: array, id: "o"+i, imagem: "image"+j, texto: "text"+j, respostas:answerqntd, respostaClicada: answerClicked}];
-            //  console.log (object);
-            //    console.log("espaço");
             lugarcerto.innerHTML += `
             <div onclick="selecionarQuestão('${answerClicked}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j} ${resposta}"><img src=${answer[j].image}>
                     <p class="text${j} text">${answer[j].text}</p>
@@ -714,7 +711,6 @@ function comparador() {
     return Math.random() - 0.5;
 }
 
-//function selecionarQuestão(objeto) {
  function selecionarQuestão(answer,id,image,text,quantity) {
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
@@ -730,6 +726,7 @@ function comparador() {
  //   console.log(aux);
     aux.classList.remove("wrong");
     aux.classList.add("correct");
+  //  setTimeout(scrollQuestion,2000);
      calculateScore(answer)
 }
 
@@ -763,13 +760,15 @@ function readScore(score) {
         console.log (questionLevels);
         if (score === 0) {
             console.log ("zerou o quiz");
-            showQuizResults(0)
+            showQuizResults(0);
+            setTimeout(scrollarTela,2000);
             i = levelsqntd;
             endQuiz = "";
         }
        else if (score <= questionLevels[i]) {
             console.log ("encerrar quiz");
-            showQuizResults(i-1)
+            showQuizResults(i-1);
+            setTimeout(scrollarTela,2000);
             i = levelsqntd;
             endQuiz = "";
         }
@@ -781,7 +780,8 @@ function readScore(score) {
     if (endQuiz === "showQuiz") {
         console.log ("deitou");
         i = levelsqntd-1;
-        showQuizResults(i)
+        showQuizResults(i);
+        setTimeout(scrollarTela,2000);
     }
    //  console.log (questionLevels);
     // console.log (score);
@@ -808,4 +808,22 @@ function readScore(score) {
         <input onclick="selectedQuiz(${QuizID})" class="final-button" type="button" value="Reiniciar Quizz">
         <input onclick="goToHomePage()" class="home-button" type="button" value="Voltar pra home">
     `
+ }
+
+// Scrollar para a próxima questão 
+
+ function scrollQuestion () {
+    const ul = document.querySelector(".question_section_container");
+    console.log(ul);
+    const lastScreen = ul.lastElementChild;
+    console.log (lastScreen);
+    lastScreen.scrollIntoView();
+}
+
+// Scrollar quando finaliza o quiz
+
+ function scrollarTela () {
+     const ul = quizPage;
+     const lastScreen = ul.lastElementChild;
+     lastScreen.scrollIntoView();
  }

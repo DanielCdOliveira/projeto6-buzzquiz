@@ -81,12 +81,19 @@ let answerClicked = "";
 
 function selectedQuiz(idDoQuiz) {
     QuizID = idDoQuiz;
-    console.log(QuizID);
     homePage.classList.add("hidden");
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
     promise.then(mostrarQuizTopo);
     loadingScreen()
+}
+
+function refreshQuiz(idDoQuiz) {
+    QuizID = idDoQuiz;
+    homePage.classList.add("hidden");
+    quizPage.classList.remove("hidden");
+    const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
+    promise.then(mostrarQuizTopo);
 }
 
 /* MOSTRA O BANNER DO QUIZ */
@@ -309,9 +316,11 @@ function stepTwo() {
 
         let incorrectAnswers = 0
 
+        // verifica se os campos estao prenchidos 
         if (questionText != null && questionColor != null && correctAnswer != null && urlAnswer != null) {
             if (correctAnswer.value != "" && pattern.test(questionColor.value)) {
 
+                // verifica quantas repostas erradas cada questao tem
                 for (let j = 0; j < 6; j++) {
                     let wrong = question.querySelector(".incorrects").querySelectorAll("input")[j].value
                     let wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[j + 1].value
@@ -324,15 +333,17 @@ function stepTwo() {
             }
         }
 
+        // verifica se tem ao menos uma resposta errada
         if (incorrectAnswers > 0) {
 
+            // adicionar resposta errada
             answerArray.push({
                 text: correctAnswer.value,
                 image: urlAnswer.value,
                 isCorrectAnswer: true
             })
 
-
+            // adiciona as respostas erradas
             for (let i = 0; i < 6; i++) {
                 wrong = question.querySelector(".incorrects").querySelectorAll("input")[i].value
                 wrongUrl = question.querySelector(".incorrects").querySelectorAll("input")[i + 1].value
@@ -352,12 +363,14 @@ function stepTwo() {
             }
             questionsComplete++;
 
+            // objeto de cada pergunta
             let arrayContent = {
                 title: questionText.value,
                 color: questionColor.value,
                 answers: answerArray
             }
 
+            // array com todas perguntas
             questionsArray.push(arrayContent);
         } else {
             alert(`Preencha todos os campos da pergunta ${i + 1} (pelo menos uma resposta errada)`);
@@ -366,13 +379,11 @@ function stepTwo() {
 
     }
 
-
-    console.log(questionsComplete)
+    // verifica se ta tudo ok e vai pra proxima pagina
     if (questionsComplete == quizNumQuestions.value) {
         pageTwo.classList.add("hidden");
         pageThree.classList.remove("hidden");
         quizInCreation.questions = questionsArray
-        console.log(quizInCreation)
     }
 }
 
@@ -404,7 +415,6 @@ function stepThree() {
 
         // verfica se os campos estao preenchidos
         if (levelTitle != null && levelHits != null && levelUrl != null && levelDescription != null) {
-            console.log("entra aqui");
             answerObject = {
                 title: levelTitle.value,
                 image: levelUrl.value,
@@ -422,9 +432,7 @@ function stepThree() {
 
 
     }
-    console.log(quizInCreation)
     quizInCreation.levels = levelsArray
-    console.log(quizInCreation)
 
     if (minZero) {
         //   tudo deu certo envia pro servidor
@@ -440,7 +448,7 @@ function stepThree() {
 }
 
 
-//
+// Conseguiu enviar o quiz
 function send(response) {
     pageThree.classList.add("hidden");
     pageFour.classList.remove("hidden");
@@ -459,8 +467,8 @@ function send(response) {
     `
 }
 
-function notSend(response) {
-    console.log(response)
+function notSend() {
+    alert("ERRO")
 }
 
 // voltar para pagina inicial
@@ -470,260 +478,7 @@ function goToHomePage() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// EXIBIÇAO DO QUIZ
 
 
 function comparador() {
@@ -734,7 +489,7 @@ function comparador() {
 
 function selecionarQuestão(answer, id, image, text, quantity) {
 
-// Desabilita todas as questões, deixas todas transparentes e com resposta errada
+    // Desabilita todas as questões, deixas todas transparentes e com resposta errada
 
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
@@ -744,7 +499,7 @@ function selecionarQuestão(answer, id, image, text, quantity) {
         selectedText.classList.add("wrong");
     }
 
-// Tira a transparência da resposta clicada, e corrige a formatação da resposta correta
+    // Tira a transparência da resposta clicada, e corrige a formatação da resposta correta
 
     const selectImage = document.querySelector("." + id + " ." + image)
     selectImage.classList.remove("opacity");
@@ -752,8 +507,8 @@ function selecionarQuestão(answer, id, image, text, quantity) {
     const aux = selectCorrect.querySelector(".text");
     aux.classList.remove("wrong");
     aux.classList.add("correct");
-  //  scroll(selectImage);
-    setTimeout(()=>scrollQuestion(selectImage),2000);
+    //  scroll(selectImage);
+    setTimeout(() => scrollQuestion(selectImage), 2000);
     calculateScore(answer);
 }
 
@@ -765,15 +520,10 @@ function calculateScore(selectedAnswer) {
         score += 100 / questionqntd;
     }
     index++;
-    console.log(index);
-    console.log(score);
     if (index === questionqntd) {
-        console.log("pronto pra ler o score")
         score = Math.ceil(score);
         readScore(score);
-    } else {
-        console.log("não está pronto pra ler o score")
-    }
+    } else {}
 }
 
 /* INTERPRETA O RESULTADO DO QUIZ PARA MOSTRAR A MENSAGEM CORRETA */
@@ -784,28 +534,21 @@ function readScore(score) {
     let endQuiz = "showQuiz";
     while (i < levelsqntd) {
         questionLevels[i] = object[i].minValue;
-        console.log(questionLevels);
         if (score === 0) {
-            console.log("zerou o quiz");
             showQuizResults(0);
             setTimeout(scrollarTela, 2000);
             i = levelsqntd;
             endQuiz = "";
-        }
-        else if (score <= questionLevels[i]) {
-            console.log("encerrar quiz");
+        } else if (score <= questionLevels[i]) {
             showQuizResults(i - 1);
             setTimeout(scrollarTela, 2000);
             i = levelsqntd;
             endQuiz = "";
-        }
-        else {
-            console.log("seu score é maior que isso");
+        } else {
             i++;
         }
     }
     if (endQuiz === "showQuiz") {
-        console.log("deitou");
         i = levelsqntd - 1;
         showQuizResults(i);
         setTimeout(scrollarTela, 2000);
@@ -816,8 +559,6 @@ function readScore(score) {
 
 function showQuizResults(quizIndex) {
     const quizEnd = object[quizIndex];
-    console.log(quizEnd);
-    console.log(QuizID);
     quizPage.innerHTML += `
         <div class="quiz_questions">
             <div class="result_title">
@@ -834,9 +575,7 @@ function showQuizResults(quizIndex) {
 
 function scrollQuestion(questionPlace) {
     const ul = questionPlace;
-    console.log(ul);
     const lastScreen = ul.lastElementChild;
-    console.log(lastScreen);
     lastScreen.scrollIntoView();
 }
 
@@ -851,10 +590,9 @@ function scrollarTela() {
 /* RESETA O QUIZ QUANDO CLICAR NO BOTÃO DE RESET */
 
 function restartQuiz(id) {
-    console.log("chamou a função");
     quizPage.innerHTML = "";
     resetVariables();
-    selectedQuiz(id);
+    refreshQuiz(id);
 }
 
 /* ZERA AS VARIÁVEIS PARA RECOMEÇAR O QUIZ */

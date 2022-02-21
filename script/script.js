@@ -436,6 +436,7 @@ function stepThree() {
 
     if (minZero) {
         //   tudo deu certo envia pro servidor
+        console.log(quizInCreation);
         const promise = axios.post(QUIZ_API, quizInCreation)
         promise.then(send)
         promise.catch(notSend)

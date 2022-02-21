@@ -154,7 +154,7 @@ function mostrarQuizQuestões() {
     }
 }
 
-// Criar quiz
+////////////////////////////// Criar quiz //////////////////////////////////////////////
 // Objeto que sera o quiz criado
 let quizInCreation = {};
 let quizTitle = null;
@@ -221,7 +221,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
 
     for (let i = 0; i < nQuestions; i++) {
         pageTwo.querySelector("ul").innerHTML += `
-        <li class="question hide" id="q${i}">
+        <li data-identifier="question" class="question hide" id="q${i}">
             <div>
                 <h2>Pergunta ${i + 1}</h2>
                 <input class="create-input question-text" type="text" minlength="20" placeholder="Texto da pergunta" required>
@@ -241,14 +241,14 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
                 <input class="create-input" type="text" placeholder="Resposta correta">
                 <input class="create-input" type="url" pattern="https://.*" placeholder="URL da imagem" required>
         </div>
-        <img onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="" required>
+        <img data-identifier="expand" onclick="editQuestion(this,'question')" class="edit-question" src="assets/Vector.png" alt="" required>
     </li>
     `
         // CRIANDO O LAYOUT DE INPUT DOS LEVELS
     }
     for (let i = 0; i < nLevels; i++) {
         pageThree.querySelector("ul").innerHTML += `
-        <li class="level hide" id="l${i}">
+        <li data-identifier="level" class="level hide" id="l${i}">
             <div class="text-inputs">
                 <h2>Nivel ${i + 1}</h2>
                 <input class="create-input level-title"  type="text" minlength="10"
@@ -258,7 +258,7 @@ function createQuestionsLevels(title, url, nQuestions, nLevels) {
                 placeholder="URL da imagem do nível" required>
                 <textarea class="create-input level-description" type="text" minlength="30" placeholder="Descrição do nível" required></textarea>
         </div>
-        <img onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
+        <img data-identifier="expand" onclick="editQuestion(this,'level')" class="edit-question" src="assets/Vector.png" alt="">
         </li>
     `
     }

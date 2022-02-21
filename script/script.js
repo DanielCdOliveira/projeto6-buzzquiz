@@ -22,7 +22,7 @@ function quizDisplay(response) {
     const variavel = response.data;
     variavel.forEach(element => {
         allQuiz.innerHTML += `
-        <li onclick="selectedQuiz(${element.id})" class="quiz" id="${element.id}">
+        <li data-identifier="quizz-card" onclick="selectedQuiz(${element.id})" class="quiz" id="${element.id}">
             <img src="${element.image}" alt="">
             <h3>${element.title}</h3>
         </li>
@@ -52,7 +52,7 @@ function quizDisplay(response) {
 function completeMyQuiz(element) {
     let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
     myQuiz.innerHTML += `
-    <li onclick="selectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
+    <li data-identifier="quizz-card" onclick="selectedQuiz(${element.data.id})" class="quiz" id="${element.data.id}">
         <img src="${element.data.image}" alt="">
         <h3>${element.data.title}</h3>
     </li>
@@ -131,7 +131,7 @@ function mostrarQuizQuestões() {
         const placeQuestions = document.querySelector(".quiz_questions_container");
         placeQuestions.innerHTML += `
                 <div class="quiz_questions">
-                <div class="question_text">
+                <div  class="question_text">
                     <p> ${questionTitle[i].title} </p>
                 </div>
                 <div class="question_options o${i}">

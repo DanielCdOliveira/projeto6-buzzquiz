@@ -30,19 +30,19 @@
             <!-- SE NAO TIVER CRIADO NENHUM quiz -->
             <div class="no-quiz hidden">
                 <p>Você não criou nenhum quiz ainda :(</p>
-                <span onclick="createQuiz()">Criar Quiz</span>
+                <span data-identifier="create-quizz" onclick="createQuiz()">Criar Quiz</span>
             </div>
             <!-- ALGUM quiz JA FOI CRIADO -->
             <div class="exist-quiz hidden">
                 <div class="my-quiz-title">
                     <h2>Seus Quizzes</h2>
-                    <ion-icon onclick="createQuiz()" name="add-circle"></ion-icon>
+                    <ion-icon data-identifier="create-quizz" onclick="createQuiz()" name="add-circle"></ion-icon>
                 </div>
-                <ul class="quiz-container"></ul>
+                <ul class="quiz-container" data-identifier="user-quizzes"></ul>
             </div>
         </div>
         <!-- QUIZ DO SERVIDOR -->
-        <div class="all-quiz">
+        <div class="all-quiz " data-identifier="general-quizzes">
             <h2>Todos os Quizzes</h2>
             <ul class="quiz-container"></ul>
         </div>

@@ -15,7 +15,7 @@ const allQuiz = document.querySelector(".all-quiz .quiz-container")
 function searchQuiz() {
     const promise = axios.get(QUIZ_API)
     promise.then(quizDisplay);
-
+    loadingScreen()
 }
 
 function quizDisplay(response) {
@@ -32,18 +32,14 @@ function quizDisplay(response) {
 
 
     if (localStorage.length > 0) {
-        let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
         let existQuiz = document.querySelector(".exist-quiz")
         existQuiz.classList.remove("hidden")
         for (let i = 0; i < localStorage.length; i++) {
-
+            // pega o id do quiz
             let key = localStorage.key(i);
-
-
+            // busca no servidor
             const promise = axios.get(`${QUIZ_API}/${key}`)
             promise.then(completeMyQuiz)
-
-
 
         }
     } else {
@@ -53,7 +49,6 @@ function quizDisplay(response) {
 }
 
 // gera os quiz criados pelo usuario
-
 function completeMyQuiz(element) {
     let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
     myQuiz.innerHTML += `
@@ -64,8 +59,10 @@ function completeMyQuiz(element) {
     `
 }
 
-/* Variáveis Globais usadas na renderização dos quizzes */
+searchQuiz()
 
+
+/* Variáveis Globais*/
 let object = [];
 let score = 0;
 let questionqntd = 0;
@@ -79,7 +76,6 @@ let answerqntd = "";
 let answerClicked = "";
 
 
-searchQuiz()
 
 /* SELECIONA O QUIZ CLICADO NA TELA INICIAL */
 
@@ -90,6 +86,7 @@ function selectedQuiz(idDoQuiz) {
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
     promise.then(mostrarQuizTopo);
+    loadingScreen()
 }
 
 /* MOSTRA O BANNER DO QUIZ */
@@ -111,7 +108,7 @@ function mostrarQuizTopo(APIData) {
                 <img src=${data.image}>
                 <p>${data.title} do quiz</p>
             </div>
-            <div class="quiz_questions">
+            <div class="quiz_questions_container">
             </div>
         `
     mostrarQuizQuestões();
@@ -124,12 +121,14 @@ function mostrarQuizQuestões() {
         answer = questionTitle[i].answers;
         answer.sort(comparador);
         answerqntd = answer.length;
-        const placeQuestions = document.querySelector(".quiz_questions");
+        const placeQuestions = document.querySelector(".quiz_questions_container");
         placeQuestions.innerHTML += `
+                <div class="quiz_questions">
                 <div class="question_text">
                     <p> ${questionTitle[i].title} </p>
                 </div>
                 <div class="question_options o${i}">
+                </div>
                 </div>
         `
         const quizAnswers = document.querySelector(".o" + i);
@@ -170,10 +169,20 @@ let answerArray = [];
 
 function createQuiz() {
     homePage.classList.add("hidden");
-    createPage.classList.remove("hidden")
+    createPage.classList.remove("hidden");
+    loadingScreen()
 }
 
+function loadingScreen() {
+    let loadingDisplay = document.querySelector(".loading")
+    loadingDisplay.classList.remove("hidden")
+    setTimeout(function () {
+        loadingDisplay.classList.add("hidden")
+    }, 2000)
 
+
+
+}
 // FUNÇAO DO PRIMEIRO BOTAO DA PRIMEIRA TELA DE CRIAÇAO
 function stepOne() {
     quizInCreation = {};
@@ -259,9 +268,13 @@ function editQuestion(element, className) {
     }
 
     // Maximiza o que foi clicado
-    element.parentNode.classList.add("selected");
-    element.parentNode.classList.remove("hide");
+    let parent = element.parentNode
+    parent.classList.add("selected");
+    parent.classList.remove("hide");
     element.style.display = "none";
+    // focar no primeiro input
+    parent.querySelector("input").focus()
+
 }
 
 //FUNÇAO DO BOTAO DA SEGUNDA TELA DE CRIAÇAO
@@ -758,8 +771,7 @@ function calculateScore(selectedAnswer) {
         console.log("pronto pra ler o score")
         score = Math.ceil(score);
         readScore(score);
-    }
-    else {
+    } else {
         console.log("não está pronto pra ler o score")
     }
 }
@@ -807,7 +819,7 @@ function showQuizResults(quizIndex) {
     console.log(quizEnd);
     console.log(QuizID);
     quizPage.innerHTML += `
-        <div class="quiz_results">
+        <div class="quiz_questions">
             <div class="result_title">
                 <p> ${score}% de acerto: ${quizEnd.title} </p>
             </div>

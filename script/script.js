@@ -131,7 +131,7 @@ function mostrarQuizQuestões() {
         const placeQuestions = document.querySelector(".quiz_questions_container");
         placeQuestions.innerHTML += `
                 <div class="quiz_questions">
-                <div  class="question_text">
+                <div class="question_text" data-identifier="question">
                     <p> ${questionTitle[i].title} </p>
                 </div>
                 <div class="question_options o${i}">
@@ -146,7 +146,7 @@ function mostrarQuizQuestões() {
                 resposta = "correta";
             }
             quizAnswers.innerHTML += `
-            <div onclick="selecionarQuestão('${answerClicked}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j} ${resposta}"><img src=${answer[j].image}>
+            <div onclick="selecionarQuestão('${answerClicked}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j} ${resposta}"><img src=${answer[j].image} data-identifier="answer">
                     <p class="text${j} text">${answer[j].text}</p>
                 </div>
             `
@@ -561,7 +561,7 @@ function showQuizResults(quizIndex) {
     const quizEnd = object[quizIndex];
     quizPage.innerHTML += `
         <div class="quiz_questions">
-            <div class="result_title">
+            <div class="result_title" data-identifier="quizz-result">
                 <p> ${score}% de acerto: ${quizEnd.title} </p>
             </div>
             <img class="result_image"src=${quizEnd.image}>

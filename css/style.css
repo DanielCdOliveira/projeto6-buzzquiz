@@ -639,7 +639,9 @@ h3 {
 
 .quiz_questions {
     /* height: 436px; */
-    /* background-color: green;   */
+    width: 100%;
+    margin-right: 17px;
+    margin-left: 18px;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
@@ -679,13 +681,12 @@ h3 {
 }
 
 .question_section_container {
-    /* background-color: white; */
     display: flex;
     flex-direction: column;
 }
 
 .question_section_container img {
-    width: 400px;
+     width: 364px;
     margin-bottom: 10px;
 }
 

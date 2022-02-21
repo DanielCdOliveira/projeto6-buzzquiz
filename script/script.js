@@ -19,7 +19,6 @@ function searchQuiz() {
 }
 
 function quizDisplay(response) {
-    console.log(response.data); //tirar depois
     const variavel = response.data;
     variavel.forEach(element => {
         allQuiz.innerHTML += `
@@ -54,6 +53,7 @@ function quizDisplay(response) {
 }
 
 // gera os quiz criados pelo usuario
+
 function completeMyQuiz(element) {
     let myQuiz = document.querySelector(".my-quiz").querySelector("ul")
     myQuiz.innerHTML += `
@@ -64,7 +64,8 @@ function completeMyQuiz(element) {
     `
 }
 
-/* Variáveis Globais para renderizar o quizzes*/
+/* Variáveis Globais usadas na renderização dos quizzes */
+
 let object = [];
 let score = 0;
 let questionqntd = 0;
@@ -80,16 +81,18 @@ let answerClicked = "";
 
 searchQuiz()
 
+/* SELECIONA O QUIZ CLICADO NA TELA INICIAL */
+
 function selectedQuiz(idDoQuiz) {
     QuizID = idDoQuiz;
     console.log(QuizID);
     homePage.classList.add("hidden");
     quizPage.classList.remove("hidden");
     const promise = axios.get(QUIZ_API + "/" + idDoQuiz);
-    // promise.then(showTitleQuiz);
     promise.then(mostrarQuizTopo);
 }
 
+/* MOSTRA O BANNER DO QUIZ */
 
 function mostrarQuizTopo(APIData) {
     let data = APIData.data;
@@ -108,34 +111,35 @@ function mostrarQuizTopo(APIData) {
                 <img src=${data.image}>
                 <p>${data.title} do quiz</p>
             </div>
+            <div class="quiz_questions">
+            </div>
         `
-    mostrarQuizQuestões()
+    mostrarQuizQuestões();
 }
+
+/* MOSTRA AS QUESTÕES COM AS RESPOSTAS */
 
 function mostrarQuizQuestões() {
     for (let i = 0; i < questionqntd; i++) {
         answer = questionTitle[i].answers;
         answer.sort(comparador);
         answerqntd = answer.length;
-        quizPage.innerHTML += `
-            <div class="quiz_questions">
+        const placeQuestions = document.querySelector(".quiz_questions");
+        placeQuestions.innerHTML += `
                 <div class="question_text">
                     <p> ${questionTitle[i].title} </p>
                 </div>
                 <div class="question_options o${i}">
                 </div>
-            </div>
         `
-        const lugarcerto = document.querySelector(".o" + i);
-        // console.log (lugarcerto);
-
+        const quizAnswers = document.querySelector(".o" + i);
         for (let j = 0; j < answerqntd; j++) {
             answerClicked = answer[j].isCorrectAnswer;
             let resposta = "incorreta";
             if (answerClicked === true) {
                 resposta = "correta";
             }
-            lugarcerto.innerHTML += `
+            quizAnswers.innerHTML += `
             <div onclick="selecionarQuestão('${answerClicked}','o${i}','image${j}','text${j}','${answerqntd}')" class="question_section_container image${j} ${resposta}"><img src=${answer[j].image}>
                     <p class="text${j} text">${answer[j].text}</p>
                 </div>
@@ -713,7 +717,12 @@ function comparador() {
     return Math.random() - 0.5;
 }
 
+/* FORMATA AS RESPOSTAS APÓS O CLIQUE */
+
 function selecionarQuestão(answer, id, image, text, quantity) {
+
+// Desabilita todas as questões, deixas todas transparentes e com resposta errada
+
     for (let i = 0; i < quantity; i++) {
         const deselectImage = document.querySelector("." + id + " .image" + i)
         deselectImage.classList.add("opacity");
@@ -721,15 +730,21 @@ function selecionarQuestão(answer, id, image, text, quantity) {
         const selectedText = document.querySelector("." + id + " .text" + i);
         selectedText.classList.add("wrong");
     }
+
+// Tira a transparência da resposta clicada, e corrige a formatação da resposta correta
+
     const selectImage = document.querySelector("." + id + " ." + image)
     selectImage.classList.remove("opacity");
     const selectCorrect = document.querySelector("." + id + " .correta")
     const aux = selectCorrect.querySelector(".text");
     aux.classList.remove("wrong");
     aux.classList.add("correct");
-    //  setTimeout(scrollQuestion,2000);
-    calculateScore(answer)
+  //  scroll(selectImage);
+    setTimeout(()=>scrollQuestion(selectImage),2000);
+    calculateScore(answer);
 }
+
+/* CALCULA NO FRONT END O SCORE DO QUIZ */
 
 function calculateScore(selectedAnswer) {
 
@@ -748,6 +763,8 @@ function calculateScore(selectedAnswer) {
         console.log("não está pronto pra ler o score")
     }
 }
+
+/* INTERPRETA O RESULTADO DO QUIZ PARA MOSTRAR A MENSAGEM CORRETA */
 
 function readScore(score) {
     let questionLevels = [];
@@ -783,6 +800,8 @@ function readScore(score) {
     }
 }
 
+/* MOSTRA NO FINAL DA PÁGINA O RESULTADO DO QUIZ */
+
 function showQuizResults(quizIndex) {
     const quizEnd = object[quizIndex];
     console.log(quizEnd);
@@ -800,17 +819,16 @@ function showQuizResults(quizIndex) {
     `
 }
 
-// Scrollar para a próxima questão 
 
-function scrollQuestion() {
-    const ul = document.querySelector(".question_section_container");
+function scrollQuestion(questionPlace) {
+    const ul = questionPlace;
     console.log(ul);
     const lastScreen = ul.lastElementChild;
     console.log(lastScreen);
     lastScreen.scrollIntoView();
 }
 
-// Scrollar quando finaliza o quiz
+/* SCROLLA A PAGINA PARA O FINAL QUANDO FINALIZA O QUIZ */
 
 function scrollarTela() {
     const ul = quizPage;
@@ -818,12 +836,16 @@ function scrollarTela() {
     lastScreen.scrollIntoView();
 }
 
+/* RESETA O QUIZ QUANDO CLICAR NO BOTÃO DE RESET */
+
 function restartQuiz(id) {
     console.log("chamou a função");
     quizPage.innerHTML = "";
     resetVariables();
     selectedQuiz(id);
 }
+
+/* ZERA AS VARIÁVEIS PARA RECOMEÇAR O QUIZ */
 
 function resetVariables() {
     object = [];
